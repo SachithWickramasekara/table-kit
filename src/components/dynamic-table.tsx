@@ -5,6 +5,8 @@ const DynamicTable: React.FC<TableProps> = ({
   data,
   columns,
   customHeaders = {},
+  headerStyles = {},
+  rowStyles = {},
 }) => {
   const headers = columns.map((col) => {
     if (typeof col === "string") {
@@ -18,13 +20,15 @@ const DynamicTable: React.FC<TableProps> = ({
       <thead>
         <tr>
           {headers.map((header, index) => (
-            <th key={index}>{header}</th>
+            <th key={index} style={headerStyles}>
+              {header}
+            </th>
           ))}
         </tr>
       </thead>
       <tbody>
         {data.map((row) => (
-          <tr key={row.id}>
+          <tr key={row.id} style={rowStyles}>
             {columns.map((col, index) => {
               const key = typeof col === "string" ? col : col.key;
               return <td key={index}>{row[key as keyof typeof row]}</td>;

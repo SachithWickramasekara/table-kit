@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type TableColumn = string | { label: string; key: string };
 
 export interface TableData {
@@ -8,7 +9,9 @@ export interface TableData {
 }
 
 export interface TableProps {
-  data: TableData[];
+  data: TableData[] | any[];
   columns: TableColumn[];
-  customHeaders?: Record<string, string>; 
+  customHeaders?: Record<string, string>;
+  headerStyles?: React.CSSProperties;
+  rowStyles?: React.CSSProperties;
 }
