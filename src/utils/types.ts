@@ -18,6 +18,7 @@ export type TableAction<T> = {
   isDanger?: boolean;
   disabled?: boolean;
   show?: (row: T) => boolean; // optional predicate
+  hidden?: boolean; // allows hiding default actions like view, edit, delete
 };
 
 export type TableKitProps<T> = {
@@ -28,6 +29,7 @@ export type TableKitProps<T> = {
   // actions
   actions?: TableAction<T>[]; // appended to defaults
   overrideActions?: TableAction<T>[]; // replace defaults entirely
+  hideDefaultActions?: string[]; // hide specific default actions by id: ["view", "edit", "delete"]
   onEdit?: (row: T) => void;
   onView?: (row: T) => void;
   onDelete?: (row: T) => void;

@@ -3,7 +3,7 @@
 .actionsContainer {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center; /* Center the dropdown trigger */
   gap: var(--tk-spacing-xs);
 }
 
@@ -70,8 +70,8 @@
 
 .dropdownTrigger {
   padding: var(--tk-spacing-xs);
-  border: 1px solid var(--tk-border);
-  background: var(--tk-bg);
+  border: 1px solid transparent;
+  background: transparent;
   color: var(--tk-text-secondary);
   border-radius: var(--tk-radius-sm);
   cursor: pointer;
@@ -81,12 +81,14 @@
   justify-content: center;
   width: 2rem;
   height: 2rem;
+  font-size: 1.125rem; /* Make the vertical dots larger */
+  line-height: 1;
 }
 
 .dropdownTrigger:hover {
   background: var(--tk-bg-hover);
   color: var(--tk-text-primary);
-  border-color: var(--tk-border-strong);
+  border-color: var(--tk-border);
 }
 
 .dropdownMenu {

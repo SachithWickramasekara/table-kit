@@ -41,6 +41,7 @@ export function TableKit<T = UserRow>({
   getRowId = (row: T) => (row as Record<string, unknown>).id as string,
   actions,
   overrideActions,
+  hideDefaultActions,
   onEdit,
   onView,
   onDelete,
@@ -127,18 +128,21 @@ export function TableKit<T = UserRow>({
       {
         id: "view",
         label: "View",
+        icon: "",
         onClick:
           onView || ((row) => console.log("View action triggered for:", row)),
       },
       {
         id: "edit",
         label: "Edit",
+        icon: "",
         onClick:
           onEdit || ((row) => console.log("Edit action triggered for:", row)),
       },
       {
         id: "delete",
         label: "Delete",
+        icon: "",
         isDanger: true,
         onClick:
           onDelete ||
@@ -146,8 +150,15 @@ export function TableKit<T = UserRow>({
       },
     ];
 
-    return actions ? [...defaultActions, ...actions] : defaultActions;
-  }, [actions, overrideActions, onEdit, onView, onDelete]);
+    // Filter out hidden default actions
+    const filteredDefaultActions = defaultActions.filter(
+      (action) => !hideDefaultActions?.includes(action.id)
+    );
+
+    return actions
+      ? [...filteredDefaultActions, ...actions]
+      : filteredDefaultActions;
+  }, [actions, overrideActions, hideDefaultActions, onEdit, onView, onDelete]);
 
   // Get effective title
   const effectiveTitle = useMemo(() => {

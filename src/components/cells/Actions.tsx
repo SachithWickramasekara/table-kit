@@ -5,22 +5,20 @@ import styles from "../../styles/actions.module.css";
 export interface ActionsProps<T> {
   actions: TableAction<T>[];
   row: T;
-  maxVisible?: number;
   className?: string;
 }
 
 // Default icons (using Unicode symbols for zero dependencies)
 const DEFAULT_ICONS = {
-  view: "👁",
-  edit: "✏️",
-  delete: "🗑",
-  more: "⋯",
+  view: "",
+  edit: "",
+  delete: "",
+  more: "⋮", // Vertical three dots
 };
 
 export function Actions<T>({
   actions,
   row,
-  maxVisible = 2,
   className = "",
 }: ActionsProps<T>): ReactNode {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -30,9 +28,6 @@ export function Actions<T>({
   const visibleActions = actions.filter(
     (action) => !action.show || action.show(row)
   );
-
-  const inlineActions = visibleActions.slice(0, maxVisible);
-  const dropdownActions = visibleActions.slice(maxVisible);
 
   const containerClass = `${styles.actionsContainer} ${className}`.trim();
 
@@ -63,65 +58,43 @@ export function Actions<T>({
 
   return (
     <div className={containerClass}>
-      {/* Inline actions */}
-      {inlineActions.map((action) => {
-        const buttonClass = `${styles.actionButton} ${
-          action.isDanger ? styles.actionButtonDanger : ""
-        }`.trim();
+      {/* Always show dropdown with vertical three dots */}
+      <div className={styles.dropdownContainer} ref={dropdownRef}>
+        <button
+          className={styles.dropdownTrigger}
+          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          aria-label="More actions"
+          aria-expanded={isDropdownOpen}
+        >
+          <span className={styles.icon}>{DEFAULT_ICONS.more}</span>
+        </button>
 
-        return (
-          <button
-            key={action.id}
-            className={buttonClass}
-            onClick={() => handleActionClick(action)}
-            disabled={action.disabled}
-            aria-label={action.label}
-          >
-            {action.icon && <span className={styles.icon}>{action.icon}</span>}
-            <span>{action.label}</span>
-          </button>
-        );
-      })}
+        <div
+          className={`${styles.dropdownMenu} ${
+            isDropdownOpen ? styles.dropdownMenuOpen : ""
+          }`.trim()}
+        >
+          {visibleActions.map((action) => {
+            const itemClass = `${styles.dropdownItem} ${
+              action.isDanger ? styles.dropdownItemDanger : ""
+            } ${action.disabled ? styles.dropdownItemDisabled : ""}`.trim();
 
-      {/* Dropdown for overflow actions */}
-      {dropdownActions.length > 0 && (
-        <div className={styles.dropdownContainer} ref={dropdownRef}>
-          <button
-            className={styles.dropdownTrigger}
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            aria-label="More actions"
-            aria-expanded={isDropdownOpen}
-          >
-            <span className={styles.icon}>{DEFAULT_ICONS.more}</span>
-          </button>
-
-          <div
-            className={`${styles.dropdownMenu} ${
-              isDropdownOpen ? styles.dropdownMenuOpen : ""
-            }`.trim()}
-          >
-            {dropdownActions.map((action) => {
-              const itemClass = `${styles.dropdownItem} ${
-                action.isDanger ? styles.dropdownItemDanger : ""
-              } ${action.disabled ? styles.dropdownItemDisabled : ""}`.trim();
-
-              return (
-                <button
-                  key={action.id}
-                  className={itemClass}
-                  onClick={() => handleActionClick(action)}
-                  disabled={action.disabled}
-                >
-                  {action.icon && (
-                    <span className={styles.icon}>{action.icon}</span>
-                  )}
-                  <span>{action.label}</span>
-                </button>
-              );
-            })}
-          </div>
+            return (
+              <button
+                key={action.id}
+                className={itemClass}
+                onClick={() => handleActionClick(action)}
+                disabled={action.disabled}
+              >
+                {action.icon && (
+                  <span className={styles.icon}>{action.icon}</span>
+                )}
+                <span>{action.label}</span>
+              </button>
+            );
+          })}
         </div>
-      )}
+      </div>
     </div>
   );
 }

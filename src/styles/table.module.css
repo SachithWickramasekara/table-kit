@@ -84,7 +84,6 @@
 
 .tr:hover {
   background: var(--tk-bg-hover);
-  transform: translateY(-1px);
   box-shadow: var(--tk-shadow-sm);
 }
 
