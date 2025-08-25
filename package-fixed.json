@@ -17,9 +17,7 @@
       "require": "./dist/index.css"
     }
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "dev": "vite",
     "build": "tsup",

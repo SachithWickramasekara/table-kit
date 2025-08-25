@@ -1,0 +1,84 @@
+/* Design tokens for table-kit */
+:root {
+  /* Spacing */
+  --tk-spacing-xs: 0.25rem;
+  --tk-spacing-sm: 0.5rem;
+  --tk-spacing-md: 0.75rem;
+  --tk-spacing-lg: 1rem;
+  --tk-spacing-xl: 1.5rem;
+  --tk-spacing-2xl: 2rem;
+
+  /* Radius */
+  --tk-radius-sm: 0.375rem;
+  --tk-radius-md: 0.5rem;
+  --tk-radius-lg: 0.75rem;
+
+  /* Shadows */
+  --tk-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --tk-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --tk-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* Colors */
+  --tk-bg: #ffffff;
+  --tk-bg-subtle: #f9fafb;
+  --tk-bg-hover: #f3f4f6;
+  --tk-border: #e5e7eb;
+  --tk-border-strong: #d1d5db;
+
+  /* Text */
+  --tk-text-primary: #111827;
+  --tk-text-secondary: #6b7280;
+  --tk-text-muted: #9ca3af;
+
+  /* Chip colors */
+  --tk-chip-bg: #f3f4f6;
+  --tk-chip-text: #374151;
+  --tk-chip-border: #e5e7eb;
+
+  /* Accent colors */
+  --tk-accent-blue: #3b82f6;
+  --tk-accent-blue-bg: #eff6ff;
+  --tk-accent-green: #10b981;
+  --tk-accent-green-bg: #ecfdf5;
+  --tk-accent-red: #ef4444;
+  --tk-accent-red-bg: #fef2f2;
+
+  /* Focus */
+  --tk-focus-ring: 0 0 0 2px var(--tk-accent-blue);
+  --tk-focus-ring-offset: 2px;
+
+  /* Transitions */
+  --tk-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --tk-transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --tk-transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tk-bg: #1f2937;
+    --tk-bg-subtle: #111827;
+    --tk-bg-hover: #374151;
+    --tk-border: #374151;
+    --tk-border-strong: #4b5563;
+
+    --tk-text-primary: #f9fafb;
+    --tk-text-secondary: #d1d5db;
+    --tk-text-muted: #9ca3af;
+
+    --tk-chip-bg: #374151;
+    --tk-chip-text: #f3f4f6;
+    --tk-chip-border: #4b5563;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --tk-transition-fast: 0ms;
+    --tk-transition-normal: 0ms;
+    --tk-transition-slow: 0ms;
+  }
+}
