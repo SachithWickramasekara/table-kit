@@ -73,6 +73,19 @@
   text-align: right;
 }
 
+/* Checkbox column - narrow width, centered */
+.checkboxColumn {
+  width: 3rem;
+  text-align: center;
+  padding: var(--tk-spacing-md);
+}
+
+/* Actions header - narrow width, right aligned */
+.actionsHeader {
+  width: 8rem;
+  text-align: right;
+}
+
 .tbody {
   background: var(--tk-bg);
 }
@@ -104,6 +117,13 @@
 
 .td:last-child {
   padding-right: var(--tk-spacing-xl);
+}
+
+/* Checkbox cell - match header width and center content */
+.checkboxCell {
+  width: 3rem;
+  text-align: center;
+  padding: var(--tk-spacing-md);
 }
 
 .actionsCell {

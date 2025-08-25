@@ -58,6 +58,19 @@ function AddUserButton() {
 function App() {
   const [currentDemo, setCurrentDemo] = useState("zero-config");
   const [loading, setLoading] = useState(false);
+  const [selectedRows, setSelectedRows] = useState<string[]>([]);
+  const [selectAllState, setSelectAllState] = useState(false);
+
+  // Selection handlers
+  const handleSelectionChange = (newSelection: string[]) => {
+    setSelectedRows(newSelection);
+    console.log("Selected rows:", newSelection);
+  };
+
+  const handleSelectAll = (isSelected: boolean) => {
+    setSelectAllState(isSelected);
+    console.log("Select all:", isSelected);
+  };
 
   // Custom actions for the demo
   const customActions: TableAction<UserRow>[] = [
@@ -177,6 +190,12 @@ function App() {
           onClick={() => setCurrentDemo("loading")}
         >
           Loading State
+        </button>
+        <button
+          style={buttonStyle(currentDemo === "selection")}
+          onClick={() => setCurrentDemo("selection")}
+        >
+          Row Selection
         </button>
       </nav>
 
@@ -318,6 +337,66 @@ export default function App() {
                   </button>
                 </div>
               }
+            />
+          </div>
+        )}
+
+        {currentDemo === "selection" && (
+          <div>
+            <h2 style={{ marginBottom: "1rem", color: "#111827" }}>
+              Row Selection
+            </h2>
+            <p style={{ marginBottom: "1rem", color: "#6b7280" }}>
+              Select individual rows or all rows with checkboxes. State is
+              managed via props.
+            </p>
+
+            <div
+              style={{
+                background: "#f9fafb",
+                padding: "1rem",
+                borderRadius: "0.5rem",
+                marginBottom: "1rem",
+                fontSize: "0.875rem",
+              }}
+            >
+              <p>
+                <strong>Selected rows:</strong>{" "}
+                {selectedRows.length > 0 ? selectedRows.join(", ") : "None"}
+              </p>
+              <p>
+                <strong>Select all state:</strong>{" "}
+                {selectAllState ? "All selected" : "Not all selected"}
+              </p>
+            </div>
+
+            <pre
+              style={{
+                background: "#f3f4f6",
+                padding: "1rem",
+                borderRadius: "0.5rem",
+                marginBottom: "1rem",
+                fontSize: "0.875rem",
+                overflow: "auto",
+              }}
+            >
+              {`const [selectedRows, setSelectedRows] = useState<string[]>([]);
+
+<TableKit 
+  selectable
+  selectedRows={selectedRows}
+  onSelectionChange={setSelectedRows}
+  onSelectAll={(isSelected) => console.log('All selected:', isSelected)}
+/>`}
+            </pre>
+
+            <TableKit
+              selectable
+              selectedRows={selectedRows}
+              onSelectionChange={handleSelectionChange}
+              selectAll={selectAllState}
+              onSelectAll={handleSelectAll}
+              title="Users with Selection"
             />
           </div>
         )}

@@ -26,6 +26,13 @@ export type TableKitProps<T> = {
   columns?: Column<T>[]; // if absent, show 3 dummy columns
   getRowId?: (row: T) => string; // default: (row as any).id
 
+  // selection
+  selectable?: boolean; // enable row selection
+  selectedRows?: string[]; // array of selected row IDs
+  onSelectionChange?: (selectedRowIds: string[]) => void; // callback when selection changes
+  selectAll?: boolean; // show select all checkbox
+  onSelectAll?: (isSelected: boolean) => void; // callback for select all
+
   // actions
   actions?: TableAction<T>[]; // appended to defaults
   overrideActions?: TableAction<T>[]; // replace defaults entirely

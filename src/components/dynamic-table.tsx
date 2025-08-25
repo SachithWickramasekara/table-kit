@@ -39,6 +39,11 @@ export function TableKit<T = UserRow>({
   data,
   columns,
   getRowId = (row: T) => (row as Record<string, unknown>).id as string,
+  selectable = false,
+  selectedRows = [],
+  onSelectionChange,
+  selectAll = false,
+  onSelectAll,
   actions,
   overrideActions,
   hideDefaultActions,
@@ -239,6 +244,42 @@ export function TableKit<T = UserRow>({
     return styles;
   };
 
+  // Selection helper functions
+  const handleRowSelection = (rowId: string, isSelected: boolean) => {
+    if (!onSelectionChange) return;
+
+    let newSelection = [...selectedRows];
+    if (isSelected) {
+      if (!newSelection.includes(rowId)) {
+        newSelection.push(rowId);
+      }
+    } else {
+      newSelection = newSelection.filter((id) => id !== rowId);
+    }
+    onSelectionChange(newSelection);
+  };
+
+  const handleSelectAll = (isSelected: boolean) => {
+    if (!onSelectionChange) return;
+
+    if (isSelected) {
+      const allRowIds = effectiveData.map((row) => getRowId(row));
+      onSelectionChange(allRowIds);
+    } else {
+      onSelectionChange([]);
+    }
+
+    if (onSelectAll) {
+      onSelectAll(isSelected);
+    }
+  };
+
+  const isRowSelected = (rowId: string) => selectedRows.includes(rowId);
+  const isAllSelected =
+    effectiveData.length > 0 && selectedRows.length === effectiveData.length;
+  const isIndeterminate =
+    selectedRows.length > 0 && selectedRows.length < effectiveData.length;
+
   const containerClass = `${styles.tableContainer} ${className} ${
     loading ? styles.loading : ""
   }`.trim();
@@ -249,7 +290,11 @@ export function TableKit<T = UserRow>({
       return (
         <TableSkeleton
           rows={5}
-          columns={effectiveColumns.length + 1} // +1 for actions
+          columns={
+            effectiveColumns.length +
+            (selectable ? 1 : 0) +
+            (effectiveActions.length > 0 ? 1 : 0)
+          }
           showUserCell={!columns && isUsingDummyData}
           showChips={!columns && isUsingDummyData}
         />
@@ -260,7 +305,13 @@ export function TableKit<T = UserRow>({
     if (effectiveData.length === 0) {
       return (
         <tr>
-          <td colSpan={effectiveColumns.length + 1}>
+          <td
+            colSpan={
+              effectiveColumns.length +
+              (selectable ? 1 : 0) +
+              (effectiveActions.length > 0 ? 1 : 0)
+            }
+          >
             <div className={styles.emptyState}>
               {emptyState || (
                 <>
@@ -288,6 +339,16 @@ export function TableKit<T = UserRow>({
 
       return (
         <RowComponent key={rowId} className={styles.tr} {...animationProps}>
+          {selectable && (
+            <td className={`${styles.td} ${styles.checkboxCell}`}>
+              <input
+                type="checkbox"
+                checked={isRowSelected(rowId)}
+                onChange={(e) => handleRowSelection(rowId, e.target.checked)}
+                aria-label={`Select row ${index + 1}`}
+              />
+            </td>
+          )}
           {effectiveColumns.map((column) => {
             const value = column.accessorKey
               ? row[column.accessorKey]
@@ -298,9 +359,11 @@ export function TableKit<T = UserRow>({
               </td>
             );
           })}
-          <td className={`${styles.td} ${styles.actionsCell}`}>
-            <Actions actions={effectiveActions} row={row} />
-          </td>
+          {effectiveActions.length > 0 && (
+            <td className={`${styles.td} ${styles.actionsCell}`}>
+              <Actions actions={effectiveActions} row={row} />
+            </td>
+          )}
         </RowComponent>
       );
     });
@@ -325,13 +388,30 @@ export function TableKit<T = UserRow>({
       {/* Table */}
       <table className={styles.table}>
         <thead className={styles.thead}>
-          <tr>
-            {effectiveColumns.map((column) => (
+          <tr className={styles.headerRow}>
+            {selectable && (
+              <th className={`${styles.th} ${styles.checkboxColumn}`}>
+                <input
+                  type="checkbox"
+                  checked={isAllSelected}
+                  ref={(el) => {
+                    if (el) el.indeterminate = isIndeterminate;
+                  }}
+                  onChange={(e) => handleSelectAll(e.target.checked)}
+                  aria-label="Select all rows"
+                />
+              </th>
+            )}
+            {columns?.map((column) => (
               <th key={column.id || column.accessorKey} className={styles.th}>
                 {column.header}
               </th>
             ))}
-            <th className={styles.th}>Actions</th>
+            {effectiveActions.length > 0 && (
+              <th className={`${styles.th} ${styles.actionsHeader}`}>
+                Actions
+              </th>
+            )}
           </tr>
         </thead>
         <tbody className={styles.tbody}>{renderTableContent()}</tbody>
