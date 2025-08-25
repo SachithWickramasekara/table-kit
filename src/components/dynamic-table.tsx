@@ -402,7 +402,7 @@ export function TableKit<T = UserRow>({
                 />
               </th>
             )}
-            {columns?.map((column) => (
+            {effectiveColumns.map((column) => (
               <th key={column.id || column.accessorKey} className={styles.th}>
                 {column.header}
               </th>

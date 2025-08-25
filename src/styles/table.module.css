@@ -80,10 +80,10 @@
   padding: var(--tk-spacing-md);
 }
 
-/* Actions header - narrow width, right aligned */
-.actionsHeader {
+/* Actions header - narrow width, center aligned (override :last-child) */
+.th.actionsHeader {
   width: 8rem;
-  text-align: right;
+  text-align: center !important;
 }
 
 .tbody {
@@ -127,7 +127,7 @@
 }
 
 .actionsCell {
-  text-align: right;
+  text-align: center;
   white-space: nowrap;
 }
 
