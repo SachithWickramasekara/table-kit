@@ -52,6 +52,7 @@ export function TableKit<T = UserRow>({
   loading = false,
   emptyState,
   className = "",
+  theme,
 }: TableKitProps<T>): ReactNode {
   const [animationEnabled, setAnimationEnabled] = useState(true);
 
@@ -192,6 +193,52 @@ export function TableKit<T = UserRow>({
   // Get row component (with or without animation)
   const RowComponent = motion?.tr || "tr";
 
+  // Apply theme styles
+  const getThemeStyles = () => {
+    if (!theme) return {};
+
+    const styles: Record<string, string> = {};
+
+    if (theme.colors) {
+      if (theme.colors.background) styles["--tk-bg"] = theme.colors.background;
+      if (theme.colors.backgroundSubtle)
+        styles["--tk-bg-subtle"] = theme.colors.backgroundSubtle;
+      if (theme.colors.backgroundHover)
+        styles["--tk-bg-hover"] = theme.colors.backgroundHover;
+      if (theme.colors.border) styles["--tk-border"] = theme.colors.border;
+      if (theme.colors.borderStrong)
+        styles["--tk-border-strong"] = theme.colors.borderStrong;
+      if (theme.colors.textPrimary)
+        styles["--tk-text-primary"] = theme.colors.textPrimary;
+      if (theme.colors.textSecondary)
+        styles["--tk-text-secondary"] = theme.colors.textSecondary;
+      if (theme.colors.textMuted)
+        styles["--tk-text-muted"] = theme.colors.textMuted;
+      if (theme.colors.accentBlue)
+        styles["--tk-accent-blue"] = theme.colors.accentBlue;
+      if (theme.colors.accentGreen)
+        styles["--tk-accent-green"] = theme.colors.accentGreen;
+      if (theme.colors.accentRed)
+        styles["--tk-accent-red"] = theme.colors.accentRed;
+    }
+
+    if (theme.spacing) {
+      if (theme.spacing.xs) styles["--tk-spacing-xs"] = theme.spacing.xs;
+      if (theme.spacing.sm) styles["--tk-spacing-sm"] = theme.spacing.sm;
+      if (theme.spacing.md) styles["--tk-spacing-md"] = theme.spacing.md;
+      if (theme.spacing.lg) styles["--tk-spacing-lg"] = theme.spacing.lg;
+      if (theme.spacing.xl) styles["--tk-spacing-xl"] = theme.spacing.xl;
+    }
+
+    if (theme.radius) {
+      if (theme.radius.sm) styles["--tk-radius-sm"] = theme.radius.sm;
+      if (theme.radius.md) styles["--tk-radius-md"] = theme.radius.md;
+      if (theme.radius.lg) styles["--tk-radius-lg"] = theme.radius.lg;
+    }
+
+    return styles;
+  };
+
   const containerClass = `${styles.tableContainer} ${className} ${
     loading ? styles.loading : ""
   }`.trim();
@@ -260,7 +307,7 @@ export function TableKit<T = UserRow>({
   };
 
   return (
-    <div className={containerClass}>
+    <div className={containerClass} style={getThemeStyles()}>
       {/* Header */}
       <div className={styles.header}>
         <div className={styles.headerLeft}>

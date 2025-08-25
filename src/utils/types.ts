@@ -44,6 +44,7 @@ export type TableKitProps<T> = {
   loading?: boolean; // skeleton shimmer
   emptyState?: ReactNode; // custom empty view
   className?: string;
+  theme?: TableTheme; // custom theme colors and spacing
 };
 
 // Default row interface for docs/examples
@@ -63,4 +64,33 @@ export type DefaultAction = "view" | "edit" | "delete";
 export type AnimationConfig = {
   enabled: boolean;
   reducedMotion: boolean;
+};
+
+// Theme configuration
+export type TableTheme = {
+  colors?: {
+    background?: string;
+    backgroundSubtle?: string;
+    backgroundHover?: string;
+    border?: string;
+    borderStrong?: string;
+    textPrimary?: string;
+    textSecondary?: string;
+    textMuted?: string;
+    accentBlue?: string;
+    accentGreen?: string;
+    accentRed?: string;
+  };
+  spacing?: {
+    xs?: string;
+    sm?: string;
+    md?: string;
+    lg?: string;
+    xl?: string;
+  };
+  radius?: {
+    sm?: string;
+    md?: string;
+    lg?: string;
+  };
 };

@@ -15,6 +15,7 @@ export type {
   UserRow,
   DefaultAction,
   AnimationConfig,
+  TableTheme,
 } from "./utils/types";
 
 // Defaults exports
