@@ -12,7 +12,6 @@ import { TableSkeleton } from "./skeleton/RowSkeleton";
 import { Pagination } from "./pagination";
 import styles from "../styles/table.module.css";
 
-// Type for motion components
 type MotionComponent = React.ComponentType<
   React.HTMLAttributes<HTMLTableRowElement> & {
     initial?: Record<string, unknown>;
@@ -21,10 +20,8 @@ type MotionComponent = React.ComponentType<
   }
 >;
 
-// Check if framer-motion is available
 let motion: { tr?: MotionComponent } | null = null;
 try {
-  // Dynamic import for framer-motion (optional peer dependency)
   const windowWithRequire = window as typeof window & {
     require?: (module: string) => unknown;
   };
@@ -33,7 +30,7 @@ try {
     motion = framerMotion as { tr?: MotionComponent };
   }
 } catch {
-  // framer-motion not available, use CSS animations
+  console.error("Framer Motion not available");
 }
 
 export function TableKit<T = UserRow>({
@@ -43,7 +40,6 @@ export function TableKit<T = UserRow>({
   selectable = false,
   selectedRows = [],
   onSelectionChange,
-  selectAll = false,
   onSelectAll,
   pageSize,
   currentPage = 1,
@@ -193,7 +189,7 @@ export function TableKit<T = UserRow>({
   }, [actions, overrideActions, hideDefaultActions, onEdit, onView, onDelete]);
 
   // Sticky column logic
-  const getStickyClass = (columnIndex: number, isHeader: boolean = false) => {
+  const getStickyClass = (columnIndex: number) => {
     const totalColumns = effectiveColumns.length;
     const hasActions = effectiveActions.length > 0;
 
