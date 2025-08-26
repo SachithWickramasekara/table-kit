@@ -1,0 +1,126 @@
+@import "./tokens.css";
+
+.skeletonRow {
+  border-bottom: 1px solid var(--tk-border);
+}
+
+.skeletonRow:last-child {
+  border-bottom: none;
+}
+
+.skeletonCell {
+  padding: var(--tk-spacing-lg);
+  vertical-align: middle;
+}
+
+.skeletonCell:first-child {
+  padding-left: var(--tk-spacing-xl);
+}
+
+.skeletonCell:last-child {
+  padding-right: var(--tk-spacing-xl);
+}
+
+.skeletonContent {
+  height: 1rem;
+  background: linear-gradient(
+    90deg,
+    var(--tk-bg-hover) 0px,
+    rgba(229, 231, 235, 0.8) 40px,
+    var(--tk-bg-hover) 80px
+  );
+  background-size: 200px;
+  border-radius: var(--tk-radius-sm);
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+.skeletonAvatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: linear-gradient(
+    90deg,
+    var(--tk-bg-hover) 0px,
+    rgba(229, 231, 235, 0.8) 40px,
+    var(--tk-bg-hover) 80px
+  );
+  background-size: 200px;
+  border-radius: 50%;
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+.skeletonUser {
+  display: flex;
+  align-items: center;
+  gap: var(--tk-spacing-md);
+}
+
+.skeletonUserContent {
+  flex: 1;
+}
+
+.skeletonUserName {
+  height: 1rem;
+  width: 8rem;
+  margin-bottom: var(--tk-spacing-xs);
+}
+
+.skeletonUserEmail {
+  height: 0.875rem;
+  width: 12rem;
+}
+
+.skeletonChips {
+  display: flex;
+  gap: var(--tk-spacing-xs);
+}
+
+.skeletonChip {
+  height: 1.5rem;
+  width: 4rem;
+  border-radius: var(--tk-radius-sm);
+}
+
+.skeletonChip:nth-child(2) {
+  width: 3rem;
+}
+
+.skeletonChip:nth-child(3) {
+  width: 5rem;
+}
+
+.skeletonActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--tk-spacing-sm);
+}
+
+.skeletonAction {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--tk-radius-sm);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+/* Dark mode skeleton */
+@media (prefers-color-scheme: dark) {
+  .skeletonContent,
+  .skeletonAvatar,
+  .skeletonChip,
+  .skeletonAction {
+    background: linear-gradient(
+      90deg,
+      var(--tk-bg-hover) 0px,
+      rgba(75, 85, 99, 0.8) 40px,
+      var(--tk-bg-hover) 80px
+    );
+    background-size: 200px;
+  }
+}

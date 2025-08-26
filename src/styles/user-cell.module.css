@@ -1,0 +1,93 @@
+@import "./tokens.css";
+
+.userCell {
+  display: flex;
+  align-items: center;
+  gap: var(--tk-spacing-md);
+}
+
+.avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--tk-border);
+  flex-shrink: 0;
+}
+
+.avatarFallback {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--tk-accent-blue-bg);
+  color: var(--tk-accent-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+  border: 2px solid var(--tk-border);
+}
+
+.userContent {
+  min-width: 0;
+  flex: 1;
+}
+
+.userName {
+  font-weight: 500;
+  color: var(--tk-text-primary);
+  margin: 0 0 var(--tk-spacing-xs) 0;
+  font-size: 0.875rem;
+  line-height: 1.2;
+}
+
+.userEmail {
+  font-size: 0.8125rem;
+  color: var(--tk-text-secondary);
+  margin: 0;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Hover effects */
+.userCell:hover .userName {
+  color: var(--tk-accent-blue);
+}
+
+.userCell:hover .avatar,
+.userCell:hover .avatarFallback {
+  border-color: var(--tk-accent-blue);
+  transform: scale(1.05);
+  transition: all var(--tk-transition-fast);
+}
+
+/* Animation */
+@keyframes userCellFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.userCellEnter {
+  animation: userCellFadeIn var(--tk-transition-normal) ease-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .userContent {
+    min-width: 0;
+  }
+
+  .userEmail {
+    max-width: 8rem;
+  }
+}

@@ -1,0 +1,91 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--tk-spacing-xs, 0.25rem);
+  padding: var(--tk-spacing-md, 1rem) 0;
+  margin-top: var(--tk-spacing-md, 1rem);
+  border-top: 1px solid var(--tk-border, #e5e7eb);
+}
+
+.pageButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 var(--tk-spacing-xs, 0.25rem);
+  border: 1px solid var(--tk-border, #e5e7eb);
+  background: white;
+  color: var(--tk-text-primary, #111827);
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: var(--tk-radius-md, 0.375rem);
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  text-decoration: none;
+}
+
+.pageButton:hover:not(:disabled) {
+  background: var(--tk-bg-hover, #f9fafb);
+  border-color: var(--tk-border-strong, #d1d5db);
+  color: var(--tk-text-primary, #111827);
+}
+
+.pageButton:focus {
+  outline: 2px solid var(--tk-accent-blue, #3b82f6);
+  outline-offset: 2px;
+}
+
+.pageButton.active {
+  background: var(--tk-accent-blue, #3b82f6);
+  border-color: var(--tk-accent-blue, #3b82f6);
+  color: white;
+}
+
+.pageButton.active:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.pageButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--tk-bg-subtle, #f9fafb);
+  color: var(--tk-text-muted, #9ca3af);
+}
+
+.navButton {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.ellipsis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  color: var(--tk-text-muted, #6b7280);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .pagination {
+    gap: var(--tk-spacing-xs, 0.125rem);
+  }
+
+  .pageButton {
+    min-width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.75rem;
+  }
+
+  .ellipsis {
+    min-width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.75rem;
+  }
+}

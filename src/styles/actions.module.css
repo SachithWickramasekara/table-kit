@@ -1,0 +1,195 @@
+@import "./tokens.css";
+
+.actionsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the dropdown trigger */
+  gap: var(--tk-spacing-xs);
+}
+
+.actionButton {
+  padding: var(--tk-spacing-xs) var(--tk-spacing-sm);
+  border: 1px solid var(--tk-border);
+  background: var(--tk-bg);
+  color: var(--tk-text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border-radius: var(--tk-radius-sm);
+  cursor: pointer;
+  transition: all var(--tk-transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--tk-spacing-xs);
+  white-space: nowrap;
+}
+
+.actionButton:hover {
+  background: var(--tk-bg-hover);
+  color: var(--tk-text-primary);
+  border-color: var(--tk-border-strong);
+  transform: translateY(-1px);
+  box-shadow: var(--tk-shadow-sm);
+}
+
+.actionButton:focus-visible {
+  outline: 2px solid var(--tk-accent-blue);
+  outline-offset: 2px;
+}
+
+.actionButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.actionButton:disabled:hover {
+  background: var(--tk-bg);
+  color: var(--tk-text-secondary);
+  border-color: var(--tk-border);
+  transform: none;
+  box-shadow: none;
+}
+
+/* Danger variant */
+.actionButtonDanger {
+  color: var(--tk-accent-red);
+  border-color: var(--tk-accent-red);
+}
+
+.actionButtonDanger:hover {
+  background: var(--tk-accent-red-bg);
+  color: var(--tk-accent-red);
+  border-color: var(--tk-accent-red);
+}
+
+/* Dropdown menu */
+.dropdownContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownTrigger {
+  padding: var(--tk-spacing-xs);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--tk-text-secondary);
+  border-radius: var(--tk-radius-sm);
+  cursor: pointer;
+  transition: all var(--tk-transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  font-size: 1.125rem; /* Make the vertical dots larger */
+  line-height: 1;
+}
+
+.dropdownTrigger:hover {
+  background: var(--tk-bg-hover);
+  color: var(--tk-text-primary);
+  border-color: var(--tk-border);
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: var(--tk-spacing-xs);
+  background: var(--tk-bg);
+  border: 1px solid var(--tk-border);
+  border-radius: var(--tk-radius-md);
+  box-shadow: var(--tk-shadow-lg);
+  z-index: 50;
+  min-width: 8rem;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: all var(--tk-transition-fast);
+  pointer-events: none;
+}
+
+.dropdownMenuOpen {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: var(--tk-spacing-sm);
+  padding: var(--tk-spacing-sm) var(--tk-spacing-md);
+  color: var(--tk-text-primary);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color var(--tk-transition-fast);
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.dropdownItem:hover {
+  background: var(--tk-bg-hover);
+}
+
+.dropdownItem:first-child {
+  border-top-left-radius: var(--tk-radius-md);
+  border-top-right-radius: var(--tk-radius-md);
+}
+
+.dropdownItem:last-child {
+  border-bottom-left-radius: var(--tk-radius-md);
+  border-bottom-right-radius: var(--tk-radius-md);
+}
+
+.dropdownItemDanger {
+  color: var(--tk-accent-red);
+}
+
+.dropdownItemDanger:hover {
+  background: var(--tk-accent-red-bg);
+  color: var(--tk-accent-red);
+}
+
+.dropdownItemDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Icons */
+.icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+/* Animation */
+@keyframes actionsSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.actionsEnter {
+  animation: actionsSlideIn var(--tk-transition-normal) ease-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .actionsContainer {
+    flex-direction: column;
+    gap: var(--tk-spacing-xs);
+  }
+
+  .actionButton {
+    padding: var(--tk-spacing-sm);
+    font-size: 0.75rem;
+  }
+}

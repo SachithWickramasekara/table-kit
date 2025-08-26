@@ -1,0 +1,68 @@
+@import "./tokens.css";
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--tk-spacing-xs) var(--tk-spacing-sm);
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--tk-chip-bg);
+  color: var(--tk-chip-text);
+  border: 1px solid var(--tk-chip-border);
+  border-radius: var(--tk-radius-sm);
+  transition: all var(--tk-transition-fast);
+  white-space: nowrap;
+}
+
+.chipContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tk-spacing-xs);
+  align-items: center;
+}
+
+.chip:hover {
+  background: var(--tk-accent-blue-bg);
+  border-color: var(--tk-accent-blue);
+  color: var(--tk-accent-blue);
+}
+
+/* Chip variants */
+.chipPrimary {
+  background: var(--tk-accent-blue-bg);
+  color: var(--tk-accent-blue);
+  border-color: var(--tk-accent-blue);
+}
+
+.chipSuccess {
+  background: var(--tk-accent-green-bg);
+  color: var(--tk-accent-green);
+  border-color: var(--tk-accent-green);
+}
+
+.chipDanger {
+  background: var(--tk-accent-red-bg);
+  color: var(--tk-accent-red);
+  border-color: var(--tk-accent-red);
+}
+
+/* Animation */
+@keyframes chipFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.chipEnter {
+  animation: chipFadeIn var(--tk-transition-fast) ease-out;
+}
+
+/* Single chip when used alone */
+.singleChip {
+  display: inline-flex;
+}
