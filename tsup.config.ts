@@ -3,20 +3,11 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   entry: ["src/index.ts", "src/styles/tokens.css"],
   format: ["cjs", "esm"],
-  dts: {
-    entry: "src/index.ts",
-    compilerOptions: {
-      jsx: "react-jsx",
-      target: "ES2020",
-      lib: ["ES2020", "DOM", "DOM.Iterable"],
-      module: "ESNext",
-      moduleResolution: "bundler",
-      skipLibCheck: true,
-    },
-  },
-  splitting: false,
+  dts: true,
+  // splitting: false,
   sourcemap: true,
   clean: true,
+  target: "node16",
   external: ["react", "react-dom", "framer-motion"],
   esbuildOptions(options) {
     options.banner = {
@@ -24,4 +15,6 @@ export default defineConfig({
     };
     options.jsx = "automatic";
   },
+  onSuccess:
+    "mkdir -p dist/styles && cp src/index.css dist/index.css && cp -R src/styles/. dist/styles/ || true",
 });

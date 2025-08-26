@@ -1,3 +1,5 @@
+import "./index.css";
+
 // Main exports
 export { TableKit } from "./components/dynamic-table";
 
