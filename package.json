@@ -1,24 +1,30 @@
 {
   "name": "@sachithw/table-kit",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "A reusable React + TypeScript table component with zero-config dummy data and full customization",
   "type": "module",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "style": "./dist/index.css",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
     },
-    "./styles": {
-      "import": "./dist/index.css",
-      "require": "./dist/index.css"
-    }
+    "./dist/index.css": "./dist/index.css",
+    "./styles/tokens.css": "./styles/tokens.css"
   },
   "files": [
-    "dist"
+    "dist",
+    "styles",
+    "README.md",
+    "package.json"
+  ],
+  "sideEffects": [
+    "./dist/index.css",
+    "./styles/*.css"
   ],
   "scripts": {
     "dev": "vite",
@@ -32,11 +38,15 @@
   },
   "keywords": [
     "react",
-    "typescript",
     "table",
-    "component",
+    "table-kit",
+    "datatable",
     "ui",
-    "npm-package"
+    "component",
+    "pagination",
+    "filter",
+    "search",
+    "actions"
   ],
   "author": "Sachith Wickramasekara",
   "license": "MIT",
