@@ -8,6 +8,8 @@ export type Column<T> = {
   cell?: (value: unknown, row: T) => ReactNode;
   width?: number | string;
   sortable?: boolean; // not implemented yet, reserve
+  sticky?: boolean; // make column sticky (fixed position)
+  stickyPosition?: "left" | "right"; // position for sticky columns
 };
 
 export type TableAction<T> = {
@@ -33,6 +35,13 @@ export type TableKitProps<T> = {
   selectAll?: boolean; // show select all checkbox
   onSelectAll?: (isSelected: boolean) => void; // callback for select all
 
+  // pagination
+  pageSize?: number; // number of items per page (default: 10)
+  currentPage?: number; // current page number (default: 1)
+  onPageChange?: (page: number) => void; // callback when page changes
+  totalItems?: number; // total number of items (if not provided, uses data.length)
+  showPagination?: boolean; // whether to show pagination controls (default: true if pageSize is set)
+
   // actions
   actions?: TableAction<T>[]; // appended to defaults
   overrideActions?: TableAction<T>[]; // replace defaults entirely
@@ -52,6 +61,11 @@ export type TableKitProps<T> = {
   emptyState?: ReactNode; // custom empty view
   className?: string;
   theme?: TableTheme; // custom theme colors and spacing
+
+  // sticky columns
+  stickyActions?: boolean; // make actions column sticky (default: true)
+  stickyLastColumn?: boolean; // make last data column sticky (default: false)
+  stickyColumns?: number; // number of columns to make sticky from the right (default: 1 for actions)
 };
 
 // Default row interface for docs/examples

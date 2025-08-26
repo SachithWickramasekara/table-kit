@@ -6,6 +6,7 @@ export { UserCell } from "./components/cells/UserCell";
 export { AccessChips, SingleChip } from "./components/cells/AccessChips";
 export { Actions } from "./components/cells/Actions";
 export { RowSkeleton, TableSkeleton } from "./components/skeleton/RowSkeleton";
+export { Pagination } from "./components/pagination";
 
 // Type exports
 export type {

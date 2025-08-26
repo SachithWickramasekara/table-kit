@@ -1,5 +1,6 @@
 declare const styles: {
   readonly tableContainer: string;
+  readonly tableWrapper: string;
   readonly loading: string;
   readonly header: string;
   readonly headerLeft: string;

@@ -8,6 +8,21 @@
   overflow: hidden;
 }
 
+.tableWrapper {
+  overflow-x: auto;
+  position: relative;
+  max-width: 100%;
+  /* Ensure sticky positioning works */
+  contain: layout style paint;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--tk-bg);
+  min-width: max-content; /* Force table to be as wide as its content */
+}
+
 .header {
   display: flex;
   align-items: center;
@@ -44,12 +59,6 @@
   gap: var(--tk-spacing-md);
 }
 
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  background: var(--tk-bg);
-}
-
 .thead {
   background: var(--tk-bg-subtle);
   border-bottom: 1px solid var(--tk-border);
@@ -62,6 +71,8 @@
   font-weight: 500;
   color: var(--tk-text-secondary);
   border-bottom: 1px solid var(--tk-border);
+  min-width: 120px; /* Ensure minimum width for columns */
+  white-space: nowrap; /* Prevent text wrapping */
 }
 
 .th:first-child {
@@ -84,6 +95,81 @@
 .th.actionsHeader {
   width: 8rem;
   text-align: center !important;
+}
+
+/* Sticky column styles */
+.th.stickyRight,
+.td.stickyRight {
+  position: sticky !important;
+  right: 0 !important;
+  background: var(--tk-bg) !important;
+  z-index: 10 !important;
+  box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.th.stickyRight2,
+.td.stickyRight2 {
+  position: sticky !important;
+  right: 8rem !important; /* Width of actions column */
+  background: var(--tk-bg) !important;
+  z-index: 9 !important;
+  box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.th.stickyRight3,
+.td.stickyRight3 {
+  position: sticky !important;
+  right: calc(
+    8rem + 8rem
+  ) !important; /* Width of actions + second sticky column */
+  background: var(--tk-bg) !important;
+  z-index: 8 !important;
+  box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Sticky left columns */
+.th.stickyLeft,
+.td.stickyLeft {
+  position: sticky;
+  left: 0;
+  background: var(--tk-bg);
+  z-index: 10;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.th.stickyLeft2,
+.td.stickyLeft2 {
+  position: sticky;
+  left: 3rem; /* Width of checkbox column */
+  background: var(--tk-bg);
+  z-index: 9;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure sticky columns maintain background on hover */
+.tr:hover .td.stickyRight,
+.tr:hover .td.stickyRight2,
+.tr:hover .td.stickyRight3,
+.tr:hover .td.stickyLeft,
+.tr:hover .td.stickyLeft2 {
+  background: var(--tk-bg-hover);
+}
+
+/* Ensure sticky headers maintain background */
+.thead .th.stickyRight,
+.thead .th.stickyRight2,
+.thead .th.stickyRight3,
+.thead .th.stickyLeft,
+.thead .th.stickyLeft2 {
+  background: var(--tk-bg-subtle);
+}
+
+.thead .tr:hover .th.stickyRight,
+.thead .tr:hover .th.stickyRight2,
+.thead .tr:hover .th.stickyRight3,
+.thead .tr:hover .th.stickyLeft,
+.thead .tr:hover .th.stickyLeft2 {
+  background: var(--tk-bg-subtle);
 }
 
 .tbody {
@@ -109,6 +195,8 @@
   font-size: 0.875rem;
   color: var(--tk-text-primary);
   vertical-align: middle;
+  min-width: 120px; /* Ensure minimum width for columns */
+  white-space: nowrap; /* Prevent text wrapping */
 }
 
 .td:first-child {
