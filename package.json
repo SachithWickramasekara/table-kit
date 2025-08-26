@@ -1,6 +1,6 @@
 {
   "name": "@sachithw/table-kit",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "A reusable React + TypeScript table component with zero-config dummy data and full customization",
   "type": "module",
   "main": "./dist/index.cjs",
