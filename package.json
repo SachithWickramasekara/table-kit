@@ -23,8 +23,8 @@
     "package.json"
   ],
   "sideEffects": [
-    "./dist/index.css",
-    "./styles/*.css"
+    "./dist/styles/index.css",
+    "./dist/styles/*.css"
   ],
   "scripts": {
     "dev": "vite",

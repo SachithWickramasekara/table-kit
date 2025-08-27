@@ -63,7 +63,8 @@ function replaceCSSVars(css, isDarkMode = false) {
   const vars = isDarkMode ? { ...CSS_VARS, ...DARK_MODE_VARS } : CSS_VARS;
 
   for (const [varName, value] of Object.entries(vars)) {
-    result = result.replace(new RegExp(varName, "g"), value);
+    // Replace var(--tk-variable) with the actual value
+    result = result.replace(new RegExp(`var\\(${varName}\\)`, "g"), value);
   }
 
   return result;
