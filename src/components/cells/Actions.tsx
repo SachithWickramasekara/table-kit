@@ -1,6 +1,5 @@
 import { ReactNode, useState, useRef, useEffect } from "react";
 import { TableAction } from "../../utils/types";
-import styles from "../../styles/actions.module.css";
 
 export interface ActionsProps<T> {
   actions: TableAction<T>[];
@@ -29,7 +28,7 @@ export function Actions<T>({
     (action) => !action.show || action.show(row)
   );
 
-  const containerClass = `${styles.actionsContainer} ${className}`.trim();
+  const containerClass = `table-kit-actions-container ${className}`.trim();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -59,25 +58,27 @@ export function Actions<T>({
   return (
     <div className={containerClass}>
       {/* Always show dropdown with vertical three dots */}
-      <div className={styles.dropdownContainer} ref={dropdownRef}>
+      <div className="table-kit-dropdown-container" ref={dropdownRef}>
         <button
-          className={styles.dropdownTrigger}
+          className="table-kit-dropdown-trigger"
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           aria-label="More actions"
           aria-expanded={isDropdownOpen}
         >
-          <span className={styles.icon}>{DEFAULT_ICONS.more}</span>
+          <span className="table-kit-icon">{DEFAULT_ICONS.more}</span>
         </button>
 
         <div
-          className={`${styles.dropdownMenu} ${
-            isDropdownOpen ? styles.dropdownMenuOpen : ""
+          className={`table-kit-dropdown-menu ${
+            isDropdownOpen ? "table-kit-dropdown-menu-open" : ""
           }`.trim()}
         >
           {visibleActions.map((action) => {
-            const itemClass = `${styles.dropdownItem} ${
-              action.isDanger ? styles.dropdownItemDanger : ""
-            } ${action.disabled ? styles.dropdownItemDisabled : ""}`.trim();
+            const itemClass = `table-kit-dropdown-item ${
+              action.isDanger ? "table-kit-dropdown-item-danger" : ""
+            } ${
+              action.disabled ? "table-kit-dropdown-item-disabled" : ""
+            }`.trim();
 
             return (
               <button
@@ -87,7 +88,7 @@ export function Actions<T>({
                 disabled={action.disabled}
               >
                 {action.icon && (
-                  <span className={styles.icon}>{action.icon}</span>
+                  <span className="table-kit-icon">{action.icon}</span>
                 )}
                 <span>{action.label}</span>
               </button>

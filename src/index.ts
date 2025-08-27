@@ -1,25 +1,20 @@
-import "./index.css";
-
-// Main exports
+// Export components
 export { TableKit } from "./components/dynamic-table";
-
-// Component exports
 export { UserCell } from "./components/cells/UserCell";
-export { AccessChips, SingleChip } from "./components/cells/AccessChips";
+export { AccessChips } from "./components/cells/AccessChips";
 export { Actions } from "./components/cells/Actions";
-export { RowSkeleton, TableSkeleton } from "./components/skeleton/RowSkeleton";
+export { RowSkeleton } from "./components/skeleton/RowSkeleton";
 export { Pagination } from "./components/pagination";
 
-// Type exports
+// Export types
+export type { TableKitProps } from "./components/dynamic-table";
+export type { UserCellProps } from "./components/cells/UserCell";
 export type {
-  Column,
-  TableAction,
-  TableKitProps,
-  UserRow,
-  DefaultAction,
-  AnimationConfig,
-  TableTheme,
-} from "./utils/types";
+  AccessChipsProps,
+  SingleChipProps,
+} from "./components/cells/AccessChips";
+export type { ActionsProps } from "./components/cells/Actions";
+export type { PaginationProps } from "./components/pagination";
 
 // Defaults exports
 export {

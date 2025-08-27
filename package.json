@@ -1,20 +1,20 @@
 {
   "name": "@sachithw/table-kit",
-  "version": "0.1.8",
+  "version": "0.1.10",
   "description": "A reusable React + TypeScript table component with zero-config dummy data and full customization",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "style": "./dist/index.css",
+  "style": "./dist/styles/index.css",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./dist/index.css": "./dist/index.css",
-    "./styles/tokens.css": "./styles/tokens.css"
+    "./styles": "./dist/styles/index.css",
+    "./styles/tokens.css": "./dist/styles/tokens.css"
   },
   "files": [
     "dist",
@@ -28,7 +28,8 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsup",
+    "build": "tsup && npm run build:css",
+    "build:css": "node scripts/build-css.js",
     "build:dev": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",

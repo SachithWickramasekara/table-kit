@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import styles from "../../styles/chips.module.css";
 
 export interface AccessChipsProps {
   access: string[];
@@ -11,10 +10,10 @@ function getChipVariant(accessType: string): string {
   const lowerType = accessType.toLowerCase();
 
   if (lowerType.includes("admin")) {
-    return styles.chipPrimary;
+    return "table-kit-chip-primary";
   }
   if (lowerType.includes("export") || lowerType.includes("import")) {
-    return styles.chipSuccess;
+    return "table-kit-chip-success";
   }
 
   return "";
@@ -25,12 +24,12 @@ export function AccessChips({
   maxVisible = 3,
   className = "",
 }: AccessChipsProps): ReactNode {
-  const containerClass = `${styles.chipContainer} ${className}`.trim();
+  const containerClass = `table-kit-chip-container ${className}`.trim();
 
   if (!access || access.length === 0) {
     return (
       <div className={containerClass}>
-        <span className={styles.chip}>No access</span>
+        <span className="table-kit-chip">No access</span>
       </div>
     );
   }
@@ -41,9 +40,9 @@ export function AccessChips({
   return (
     <div className={containerClass}>
       {visibleItems.map((item, index) => {
-        const chipClass = `${styles.chip} ${getChipVariant(item)} ${
-          styles.chipEnter
-        }`.trim();
+        const chipClass = `table-kit-chip ${getChipVariant(
+          item
+        )} table-kit-chip-enter`.trim();
         return (
           <span
             key={item}
@@ -55,7 +54,7 @@ export function AccessChips({
         );
       })}
       {remainingCount > 0 && (
-        <span className={`${styles.chip} ${styles.chipEnter}`}>
+        <span className="table-kit-chip table-kit-chip-enter">
           +{remainingCount} more
         </span>
       )}
@@ -76,14 +75,14 @@ export function SingleChip({
 }: SingleChipProps): ReactNode {
   const variantClassMap: Record<string, string> = {
     default: "",
-    primary: styles.chipPrimary,
-    success: styles.chipSuccess,
-    danger: styles.chipDanger,
+    primary: "table-kit-chip-primary",
+    success: "table-kit-chip-success",
+    danger: "table-kit-chip-danger",
   };
 
   const variantClass = variantClassMap[variant] || "";
   const chipClass =
-    `${styles.chip} ${styles.singleChip} ${variantClass} ${className}`.trim();
+    `table-kit-chip table-kit-single-chip ${variantClass} ${className}`.trim();
 
   return <span className={chipClass}>{value}</span>;
 }

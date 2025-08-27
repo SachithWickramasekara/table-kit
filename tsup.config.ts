@@ -1,7 +1,7 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["src/index.ts", "src/styles/tokens.css"],
+  entry: ["src/index.ts"],
   format: ["cjs", "esm"],
   dts: true,
   // splitting: false,
@@ -17,6 +17,4 @@ export default defineConfig({
   },
   // Add proper TypeScript configuration for JSX
   tsconfig: "tsconfig.build.json",
-  onSuccess:
-    "mkdir -p dist/styles && cp src/index.css dist/index.css && cp -R src/styles/. dist/styles/ || true",
 });

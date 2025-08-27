@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import styles from "../../styles/skeleton.module.css";
 
 export interface RowSkeletonProps {
   columns: number;
@@ -14,22 +13,18 @@ export function RowSkeleton({
   showChips = false,
   className = "",
 }: RowSkeletonProps): ReactNode {
-  const rowClass = `${styles.skeletonRow} ${className}`.trim();
+  const rowClass = `table-kit-skeleton-row ${className}`.trim();
 
   const renderSkeletonCell = (index: number) => {
     // First column as user cell
     if (index === 0 && showUserCell) {
       return (
-        <td key={index} className={styles.skeletonCell}>
-          <div className={styles.skeletonUser}>
-            <div className={styles.skeletonAvatar} />
-            <div className={styles.skeletonUserContent}>
-              <div
-                className={`${styles.skeletonContent} ${styles.skeletonUserName}`}
-              />
-              <div
-                className={`${styles.skeletonContent} ${styles.skeletonUserEmail}`}
-              />
+        <td key={index} className="table-kit-skeleton-cell">
+          <div className="table-kit-skeleton-user">
+            <div className="table-kit-skeleton-avatar" />
+            <div className="table-kit-skeleton-user-content">
+              <div className="table-kit-skeleton-content table-kit-skeleton-user-name" />
+              <div className="table-kit-skeleton-content table-kit-skeleton-user-email" />
             </div>
           </div>
         </td>
@@ -39,17 +34,11 @@ export function RowSkeleton({
     // Second column as chips if specified
     if (index === 1 && showChips) {
       return (
-        <td key={index} className={styles.skeletonCell}>
-          <div className={styles.skeletonChips}>
-            <div
-              className={`${styles.skeletonContent} ${styles.skeletonChip}`}
-            />
-            <div
-              className={`${styles.skeletonContent} ${styles.skeletonChip}`}
-            />
-            <div
-              className={`${styles.skeletonContent} ${styles.skeletonChip}`}
-            />
+        <td key={index} className="table-kit-skeleton-cell">
+          <div className="table-kit-skeleton-chips">
+            <div className="table-kit-skeleton-content table-kit-skeleton-chip" />
+            <div className="table-kit-skeleton-content table-kit-skeleton-chip" />
+            <div className="table-kit-skeleton-content table-kit-skeleton-chip" />
           </div>
         </td>
       );
@@ -58,14 +47,10 @@ export function RowSkeleton({
     // Last column as actions
     if (index === columns - 1) {
       return (
-        <td key={index} className={styles.skeletonCell}>
-          <div className={styles.skeletonActions}>
-            <div
-              className={`${styles.skeletonContent} ${styles.skeletonAction}`}
-            />
-            <div
-              className={`${styles.skeletonContent} ${styles.skeletonAction}`}
-            />
+        <td key={index} className="table-kit-skeleton-cell">
+          <div className="table-kit-skeleton-actions">
+            <div className="table-kit-skeleton-content table-kit-skeleton-action" />
+            <div className="table-kit-skeleton-content table-kit-skeleton-action" />
           </div>
         </td>
       );
@@ -73,8 +58,8 @@ export function RowSkeleton({
 
     // Regular content cell
     return (
-      <td key={index} className={styles.skeletonCell}>
-        <div className={styles.skeletonContent} />
+      <td key={index} className="table-kit-skeleton-cell">
+        <div className="table-kit-skeleton-content" />
       </td>
     );
   };
@@ -102,16 +87,28 @@ export function TableSkeleton({
   className = "",
 }: TableSkeletonProps): ReactNode {
   return (
-    <>
-      {Array.from({ length: rows }, (_, index) => (
-        <RowSkeleton
-          key={index}
-          columns={columns}
-          showUserCell={showUserCell}
-          showChips={showChips}
-          className={className}
-        />
-      ))}
-    </>
+    <div className={`table-kit-skeleton ${className}`}>
+      <table className="table-kit-skeleton-table">
+        <thead className="table-kit-skeleton-thead">
+          <tr className="table-kit-skeleton-header-row">
+            {Array.from({ length: columns }, (_, index) => (
+              <th key={index} className="table-kit-skeleton-th">
+                <div className="table-kit-skeleton-content" />
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody className="table-kit-skeleton-tbody">
+          {Array.from({ length: rows }, (_, rowIndex) => (
+            <RowSkeleton
+              key={rowIndex}
+              columns={columns}
+              showUserCell={showUserCell}
+              showChips={showChips}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

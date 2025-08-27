@@ -1,5 +1,3 @@
-import styles from "../styles/pagination.module.css";
-
 export interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -50,9 +48,9 @@ export function Pagination({
   const visiblePages = getVisiblePages();
 
   return (
-    <div className={`${styles.pagination} ${className}`}>
+    <div className={`table-kit-pagination ${className}`}>
       <button
-        className={`${styles.pageButton} ${styles.navButton}`}
+        className="table-kit-page-button table-kit-nav-button"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
         aria-label="Previous page"
@@ -63,7 +61,7 @@ export function Pagination({
       {visiblePages.map((page, index) => {
         if (page === "...") {
           return (
-            <span key={`ellipsis-${index}`} className={styles.ellipsis}>
+            <span key={`ellipsis-${index}`} className="table-kit-ellipsis">
               ...
             </span>
           );
@@ -72,8 +70,8 @@ export function Pagination({
         return (
           <button
             key={page}
-            className={`${styles.pageButton} ${
-              currentPage === page ? styles.active : ""
+            className={`table-kit-page-button ${
+              currentPage === page ? "table-kit-active" : ""
             }`}
             onClick={() => onPageChange(page as number)}
             aria-label={`Page ${page}`}
@@ -85,7 +83,7 @@ export function Pagination({
       })}
 
       <button
-        className={`${styles.pageButton} ${styles.navButton}`}
+        className="table-kit-page-button table-kit-nav-button"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         aria-label="Next page"
