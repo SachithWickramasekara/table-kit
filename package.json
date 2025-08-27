@@ -9,9 +9,9 @@
   "style": "./dist/index.css",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     },
     "./dist/index.css": "./dist/index.css",
     "./styles/tokens.css": "./styles/tokens.css"

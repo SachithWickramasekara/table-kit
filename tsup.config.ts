@@ -15,6 +15,8 @@ export default defineConfig({
     };
     options.jsx = "automatic";
   },
+  // Add proper TypeScript configuration for JSX
+  tsconfig: "tsconfig.build.json",
   onSuccess:
     "mkdir -p dist/styles && cp src/index.css dist/index.css && cp -R src/styles/. dist/styles/ || true",
 });

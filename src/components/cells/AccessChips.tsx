@@ -74,10 +74,14 @@ export function SingleChip({
   variant = "default",
   className = "",
 }: SingleChipProps): ReactNode {
-  const variantClass =
-    variant !== "default"
-      ? styles[`chip${variant.charAt(0).toUpperCase()}${variant.slice(1)}`]
-      : "";
+  const variantClassMap: Record<string, string> = {
+    default: "",
+    primary: styles.chipPrimary,
+    success: styles.chipSuccess,
+    danger: styles.chipDanger,
+  };
+
+  const variantClass = variantClassMap[variant] || "";
   const chipClass =
     `${styles.chip} ${styles.singleChip} ${variantClass} ${className}`.trim();
 
