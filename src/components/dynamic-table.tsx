@@ -9,7 +9,30 @@ import { UserCell } from "./cells/UserCell";
 import { AccessChips } from "./cells/AccessChips";
 import { TableSkeleton } from "./skeleton/RowSkeleton";
 import { Pagination } from "./pagination";
-import styles from "../styles/table.module.css";
+
+// Fixed CSS class names for the distributed package
+const styles = {
+  tableContainer: "table-kit-tableContainer",
+  table: "table-kit-table",
+  tableWrapper: "table-kit-tableWrapper",
+  header: "table-kit-header",
+  headerLeft: "table-kit-headerLeft",
+  title: "table-kit-title",
+  headerRight: "table-kit-headerRight",
+  headerExtras: "table-kit-headerExtras",
+  thead: "table-kit-thead",
+  headerRow: "table-kit-headerRow",
+  th: "table-kit-th",
+  tbody: "table-kit-tbody",
+  tr: "table-kit-tr",
+  td: "table-kit-td",
+  checkboxColumn: "table-kit-checkboxColumn",
+  checkboxCell: "table-kit-checkboxCell",
+  emptyState: "table-kit-emptyState",
+  emptyStateIcon: "table-kit-emptyStateIcon",
+  emptyStateText: "table-kit-emptyStateText",
+  loading: "table-kit-loading",
+};
 
 type MotionComponent = React.ComponentType<
   React.HTMLAttributes<HTMLTableRowElement> & {

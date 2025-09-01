@@ -1,5 +1,17 @@
 import { ReactNode, useState, useRef, useEffect } from "react";
-import styles from "../../styles/actions.module.css";
+
+// Fixed CSS class names for the distributed package
+const styles = {
+  actionsContainer: "table-kit-actions",
+  dropdownContainer: "table-kit-actions",
+  dropdownTrigger: "table-kit-actionButton",
+  icon: "table-kit-actionButton",
+  dropdownMenu: "table-kit-actions",
+  dropdownMenuOpen: "table-kit-actions",
+  dropdownItem: "table-kit-actionButton",
+  dropdownItemDanger: "table-kit-actionButton",
+  dropdownItemDisabled: "table-kit-actionButton",
+};
 
 export interface TableAction<T> {
   id: string;

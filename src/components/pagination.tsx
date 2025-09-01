@@ -1,4 +1,11 @@
-import styles from "../styles/pagination.module.css";
+// Fixed CSS class names for the distributed package
+const styles = {
+  pagination: "table-kit-paginationControls",
+  pageButton: "table-kit-paginationButton",
+  navButton: "table-kit-paginationButton",
+  ellipsis: "table-kit-paginationButton",
+  active: "active",
+};
 
 export interface PaginationProps {
   currentPage: number;

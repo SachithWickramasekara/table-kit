@@ -9,6 +9,10 @@ export default defineConfig({
   clean: true,
   target: "node16",
   external: ["react", "react-dom", "framer-motion"],
+  // Include CSS files in the output
+  loader: {
+    ".css": "copy",
+  },
   esbuildOptions(options) {
     options.banner = {
       js: '"use client"',
@@ -17,4 +21,18 @@ export default defineConfig({
   },
   // Add proper TypeScript configuration for JSX
   tsconfig: "tsconfig.build.json",
+  // Copy CSS file to dist
+  onSuccess: async () => {
+    console.log("Copying CSS file...");
+    const fs = await import("fs");
+    const path = await import("path");
+
+    const srcCSS = path.resolve("src/table-kit.css");
+    const destCSS = path.resolve("dist/table-kit.css");
+
+    if (fs.existsSync(srcCSS)) {
+      fs.copyFileSync(srcCSS, destCSS);
+      console.log("CSS file copied successfully!");
+    }
+  },
 });

@@ -1,5 +1,12 @@
 import { ReactNode } from "react";
-import styles from "../../styles/chips.module.css";
+
+// Fixed CSS class names for the distributed package
+const styles = {
+  chipContainer: "table-kit-accessChips",
+  chip: "table-kit-chip",
+  chipPrimary: "admin",
+  chipSuccess: "data",
+};
 
 export interface AccessChipsProps {
   access: string[];

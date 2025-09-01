@@ -1,6 +1,16 @@
 import { ReactNode } from "react";
 import { UserRow } from "../../utils/types";
-import styles from "../../styles/user-cell.module.css";
+
+// Fixed CSS class names for the distributed package
+const styles = {
+  userCell: "table-kit-userCell",
+  avatar: "table-kit-avatar",
+  avatarFallback: "table-kit-avatar", // Use same class as avatar
+  userInfo: "table-kit-userInfo",
+  userContent: "table-kit-userInfo", // Use same class as userInfo
+  userName: "table-kit-userName",
+  userEmail: "table-kit-userEmail",
+};
 
 export interface UserCellProps {
   user: UserRow;

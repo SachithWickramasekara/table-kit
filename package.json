@@ -1,6 +1,6 @@
 {
   "name": "@sachithw/table-kit",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "A reusable React + TypeScript table component with zero-config dummy data and full customization",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -14,7 +14,8 @@
       "require": "./dist/index.cjs"
     },
     "./styles": "./dist/styles/index.css",
-    "./styles/tokens.css": "./dist/styles/tokens.css"
+    "./styles/tokens.css": "./dist/styles/tokens.css",
+    "./dist/table-kit.css": "./dist/table-kit.css"
   },
   "files": [
     "dist",
@@ -89,5 +90,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@sachithw/table-kit": "file:sachithw-table-kit-0.1.13.tgz"
   }
 }
