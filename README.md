@@ -2,7 +2,7 @@
 
 A reusable React + TypeScript table component with zero-config dummy data and full customization. Perfect for building admin dashboards, data tables, and user interfaces that match modern design patterns.
 
-[![npm version](https://badge.fury.io/js/table-kit.svg)](https://badge.fury.io/js/table-kit)
+[![npm version](https://badge.fury.io/js/@sachithw%2Ftable-kit.svg)](https://badge.fury.io/js/@sachithw%2Ftable-kit)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue)](https://www.typescriptlang.org/)
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
@@ -21,11 +21,11 @@ A reusable React + TypeScript table component with zero-config dummy data and fu
 ### Installation
 
 ```bash
-npm install table-kit
+npm install @sachithw/table-kit
 # or
-pnpm add table-kit
+pnpm add @sachithw/table-kit
 # or
-yarn add table-kit
+yarn add @sachithw/table-kit
 ```
 
 ### Zero-config Usage
@@ -33,7 +33,7 @@ yarn add table-kit
 The simplest way to get started:
 
 ```tsx
-import { TableKit } from 'table-kit';
+import { TableKit } from "@sachithw/table-kit";
 
 export default function App() {
   return <TableKit />;
@@ -111,18 +111,18 @@ type UserRow = {
 ### 1. With API Data
 
 ```tsx
-import { TableKit, Column, UserRow } from 'table-kit';
+import { TableKit, Column, UserRow } from "@sachithw/table-kit";
 
 const users: UserRow[] = [
   {
-    id: '1',
-    name: 'John Doe',
-    email: 'john@example.com',
-    access: ['Admin', 'Editor'],
-    lastActive: '2024-03-15',
-    dateAdded: '2024-01-10',
-    avatarUrl: 'https://example.com/avatar.jpg'
-  }
+    id: "1",
+    name: "John Doe",
+    email: "john@example.com",
+    access: ["Admin", "Editor"],
+    lastActive: "2024-03-15",
+    dateAdded: "2024-01-10",
+    avatarUrl: "https://example.com/avatar.jpg",
+  },
   // ... more users
 ];
 
@@ -131,8 +131,8 @@ export default function UsersTable() {
     <TableKit
       data={users}
       title="Team Members"
-      onEdit={(user) => console.log('Edit', user)}
-      onDelete={(user) => console.log('Delete', user)}
+      onEdit={(user) => console.log("Edit", user)}
+      onDelete={(user) => console.log("Delete", user)}
     />
   );
 }
@@ -141,7 +141,7 @@ export default function UsersTable() {
 ### 2. Custom Columns
 
 ```tsx
-import { TableKit, Column } from 'table-kit';
+import { TableKit, Column } from "@sachithw/table-kit";
 
 type Product = {
   id: string;
@@ -153,40 +153,36 @@ type Product = {
 
 const columns: Column<Product>[] = [
   {
-    id: 'name',
-    header: 'Product Name',
-    accessorKey: 'name'
+    id: "name",
+    header: "Product Name",
+    accessorKey: "name",
   },
   {
-    id: 'price',
-    header: 'Price',
-    accessorKey: 'price',
-    cell: (value) => `$${(value as number).toFixed(2)}`
+    id: "price",
+    header: "Price",
+    accessorKey: "price",
+    cell: (value) => `$${(value as number).toFixed(2)}`,
   },
   {
-    id: 'category',
-    header: 'Category',
-    accessorKey: 'category'
+    id: "category",
+    header: "Category",
+    accessorKey: "category",
   },
   {
-    id: 'status',
-    header: 'Status',
-    accessorKey: 'inStock',
+    id: "status",
+    header: "Status",
+    accessorKey: "inStock",
     cell: (value) => (
-      <span className={value ? 'text-green-600' : 'text-red-600'}>
-        {value ? 'In Stock' : 'Out of Stock'}
+      <span className={value ? "text-green-600" : "text-red-600"}>
+        {value ? "In Stock" : "Out of Stock"}
       </span>
-    )
-  }
+    ),
+  },
 ];
 
 export default function ProductsTable() {
   return (
-    <TableKit<Product>
-      data={products}
-      columns={columns}
-      title="Products"
-    />
+    <TableKit<Product> data={products} columns={columns} title="Products" />
   );
 }
 ```
@@ -194,27 +190,27 @@ export default function ProductsTable() {
 ### 3. Custom Actions
 
 ```tsx
-import { TableKit, TableAction } from 'table-kit';
+import { TableKit, TableAction } from "@sachithw/table-kit";
 
 const customActions: TableAction<UserRow>[] = [
   {
-    id: 'impersonate',
-    label: 'Impersonate',
-    icon: '👤',
+    id: "impersonate",
+    label: "Impersonate",
+    icon: "👤",
     onClick: (user) => {
       // Impersonate user logic
       window.location.href = `/admin/impersonate/${user.id}`;
     },
-    show: (user) => user.access.includes('Admin') // Only show for admins
+    show: (user) => user.access.includes("Admin"), // Only show for admins
   },
   {
-    id: 'sendEmail',
-    label: 'Send Email',
-    icon: '✉️',
+    id: "sendEmail",
+    label: "Send Email",
+    icon: "✉️",
     onClick: (user) => {
       window.location.href = `mailto:${user.email}`;
-    }
-  }
+    },
+  },
 ];
 
 export default function AdminUsersTable() {
@@ -232,7 +228,7 @@ export default function AdminUsersTable() {
 ### 4. Header Slots & Composition
 
 ```tsx
-import { TableKit } from 'table-kit';
+import { TableKit } from "@sachithw/table-kit";
 
 function SearchInput() {
   return (
@@ -245,11 +241,7 @@ function SearchInput() {
 }
 
 function FilterButton() {
-  return (
-    <button className="px-4 py-2 border rounded-md">
-      🔍 Filters
-    </button>
-  );
+  return <button className="px-4 py-2 border rounded-md">🔍 Filters</button>;
 }
 
 function AddUserButton() {
@@ -279,7 +271,7 @@ export default function UsersWithHeader() {
 ### 5. Loading & Empty States
 
 ```tsx
-import { TableKit } from 'table-kit';
+import { TableKit } from "@sachithw/table-kit";
 
 export default function LoadingTable() {
   const [loading, setLoading] = useState(true);
@@ -312,20 +304,20 @@ export default function LoadingTable() {
 ### 6. Override Default Actions
 
 ```tsx
-import { TableKit, TableAction } from 'table-kit';
+import { TableKit, TableAction } from "@sachithw/table-kit";
 
 const customActionsOnly: TableAction<UserRow>[] = [
   {
-    id: 'invite',
-    label: 'Invite',
-    onClick: (user) => sendInvite(user)
+    id: "invite",
+    label: "Invite",
+    onClick: (user) => sendInvite(user),
   },
   {
-    id: 'archive',
-    label: 'Archive',
+    id: "archive",
+    label: "Archive",
     isDanger: true,
-    onClick: (user) => archiveUser(user)
-  }
+    onClick: (user) => archiveUser(user),
+  },
 ];
 
 export default function CustomActionsTable() {
@@ -400,7 +392,7 @@ npm install framer-motion
 ```
 
 ```tsx
-import { TableKit } from 'table-kit';
+import { TableKit } from "@sachithw/table-kit";
 // framer-motion will be automatically detected and used
 ```
 
@@ -419,18 +411,18 @@ If framer-motion is not installed, table-kit falls back to CSS animations:
 Basic unit tests for key functionality:
 
 ```tsx
-import { render, screen } from '@testing-library/react';
-import { TableKit } from 'table-kit';
+import { render, screen } from "@testing-library/react";
+import { TableKit } from "@sachithw/table-kit";
 
-test('renders dummy data by default', () => {
+test("renders dummy data by default", () => {
   render(<TableKit />);
   expect(screen.getByText(/All users/)).toBeInTheDocument();
 });
 
-test('renders custom data', () => {
-  const data = [{ id: '1', name: 'Test User', email: 'test@example.com' }];
+test("renders custom data", () => {
+  const data = [{ id: "1", name: "Test User", email: "test@example.com" }];
   render(<TableKit data={data} />);
-  expect(screen.getByText('Test User')).toBeInTheDocument();
+  expect(screen.getByText("Test User")).toBeInTheDocument();
 });
 ```
 
