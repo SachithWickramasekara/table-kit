@@ -10,6 +10,7 @@ import { AccessChips } from "./cells/AccessChips";
 import { Actions } from "./cells/Actions";
 import { TableSkeleton } from "./skeleton/RowSkeleton";
 import { Pagination } from "./pagination";
+import styles from "../styles/table.module.css";
 
 type MotionComponent = React.ComponentType<
   React.HTMLAttributes<HTMLTableRowElement> & {
@@ -376,8 +377,8 @@ export function TableKit<T = UserRow>({
   const isIndeterminate =
     selectedRows.length > 0 && selectedRows.length < paginatedData.length;
 
-  const containerClass = `table-kit-table-container ${className} ${
-    loading ? "table-kit-loading" : ""
+  const containerClass = `${styles.tableContainer} ${className} ${
+    loading ? styles.loading : ""
   }`.trim();
 
   const renderTableContent = () => {
@@ -408,11 +409,11 @@ export function TableKit<T = UserRow>({
               (effectiveActions.length > 0 ? 1 : 0)
             }
           >
-            <div className="table-kit-empty-state">
+            <div className={styles.emptyState}>
               {emptyState || (
                 <>
-                  <div className="table-kit-empty-state-icon">📄</div>
-                  <p className="table-kit-empty-state-text">No data found</p>
+                  <div className={styles.emptyStateIcon}>📄</div>
+                  <p className={styles.emptyStateText}>No data found</p>
                 </>
               )}
             </div>
@@ -434,9 +435,9 @@ export function TableKit<T = UserRow>({
           : {};
 
       return (
-        <RowComponent key={rowId} className="table-kit-tr" {...animationProps}>
+        <RowComponent key={rowId} className={styles.tr} {...animationProps}>
           {selectable && (
-            <td className="table-kit-td table-kit-checkbox-cell">
+            <td className={`${styles.td} ${styles.checkboxCell}`}>
               <input
                 type="checkbox"
                 checked={isRowSelected(rowId)}
@@ -457,7 +458,7 @@ export function TableKit<T = UserRow>({
             return (
               <td
                 key={column.id || column.accessorKey}
-                className={`table-kit-td ${stickyClass}`}
+                className={`${styles.td} ${stickyClass}`}
                 style={stickyStyles}
               >
                 {renderCellContent(column, row, value)}
@@ -471,7 +472,7 @@ export function TableKit<T = UserRow>({
               console.log(`Row actions cell: stickyClass = "${stickyClass}"`);
               return (
                 <td
-                  className={`table-kit-td table-kit-actions-cell ${stickyClass}`}
+                  className={`${styles.td} ${styles.actionsCell} ${stickyClass}`}
                   style={stickyStyles}
                 >
                   <Actions actions={effectiveActions} row={row} />
@@ -486,26 +487,26 @@ export function TableKit<T = UserRow>({
   return (
     <div className={containerClass} style={getThemeStyles()}>
       {/* Header */}
-      <div className="table-kit-header">
-        <div className="table-kit-header-left">
-          <h2 className="table-kit-title">{effectiveTitle}</h2>
+      <div className={styles.header}>
+        <div className={styles.headerLeft}>
+          <h2 className={styles.title}>{effectiveTitle}</h2>
           {renderHeaderLeft && renderHeaderLeft()}
         </div>
-        <div className="table-kit-header-right">
+        <div className={styles.headerRight}>
           {renderHeaderRight && renderHeaderRight()}
         </div>
         {renderHeaderExtras && (
-          <div className="table-kit-header-extras">{renderHeaderExtras()}</div>
+          <div className={styles.headerExtras}>{renderHeaderExtras()}</div>
         )}
       </div>
 
       {/* Table */}
-      <div className="table-kit-table-wrapper">
-        <table className="table-kit-table">
-          <thead className="table-kit-thead">
-            <tr className="table-kit-header-row">
+      <div className={styles.tableWrapper}>
+        <table className={styles.table}>
+          <thead className={styles.thead}>
+            <tr className={styles.headerRow}>
               {selectable && (
-                <th className="table-kit-th table-kit-checkbox-column">
+                <th className={`${styles.th} ${styles.checkboxColumn}`}>
                   <input
                     type="checkbox"
                     checked={isAllSelected}
@@ -526,7 +527,7 @@ export function TableKit<T = UserRow>({
                 return (
                   <th
                     key={column.id || column.accessorKey}
-                    className={`table-kit-th ${stickyClass}`}
+                    className={`${styles.th} ${stickyClass}`}
                     style={stickyStyles}
                   >
                     {column.header}
@@ -540,7 +541,7 @@ export function TableKit<T = UserRow>({
                   console.log(`Actions column: stickyClass = "${stickyClass}"`);
                   return (
                     <th
-                      className={`table-kit-th table-kit-actions-header ${stickyClass}`}
+                      className={`${styles.th} ${styles.actionsHeader} ${stickyClass}`}
                       style={stickyStyles}
                     >
                       Actions
@@ -549,7 +550,7 @@ export function TableKit<T = UserRow>({
                 })()}
             </tr>
           </thead>
-          <tbody className="table-kit-tbody">{renderTableContent()}</tbody>
+          <tbody className={styles.tbody}>{renderTableContent()}</tbody>
         </table>
       </div>
 

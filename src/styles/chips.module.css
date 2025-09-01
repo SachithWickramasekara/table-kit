@@ -10,8 +10,9 @@
   color: var(--tk-chip-text);
   border: 1px solid var(--tk-chip-border);
   border-radius: var(--tk-radius-sm);
-  transition: all var(--tk-transition-fast);
   white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
 }
 
 .chipContainer {
@@ -19,12 +20,6 @@
   flex-wrap: wrap;
   gap: var(--tk-spacing-xs);
   align-items: center;
-}
-
-.chip:hover {
-  background: var(--tk-accent-blue-bg);
-  border-color: var(--tk-accent-blue);
-  color: var(--tk-accent-blue);
 }
 
 /* Chip variants */

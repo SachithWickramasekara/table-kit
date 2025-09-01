@@ -3,8 +3,8 @@
 .actionsContainer {
   display: flex;
   align-items: center;
-  justify-content: center; /* Center the dropdown trigger */
-  gap: var(--tk-spacing-xs);
+  justify-content: center;
+  gap: var(--tk-spacing-sm);
 }
 
 .actionButton {
@@ -27,8 +27,6 @@
   background: var(--tk-bg-hover);
   color: var(--tk-text-primary);
   border-color: var(--tk-border-strong);
-  transform: translateY(-1px);
-  box-shadow: var(--tk-shadow-sm);
 }
 
 .actionButton:focus-visible {
@@ -56,7 +54,8 @@
   border-color: var(--tk-accent-red);
 }
 
-.actionButtonDanger:hover {
+/* Danger action button */
+.actionButton.danger:hover {
   background: var(--tk-accent-red-bg);
   color: var(--tk-accent-red);
   border-color: var(--tk-accent-red);

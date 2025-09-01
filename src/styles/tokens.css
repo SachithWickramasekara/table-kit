@@ -19,11 +19,16 @@
     0 2px 4px -2px rgb(0 0 0 / 0.1);
   --tk-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
     0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --tk-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 10px 10px -5px rgb(0 0 0 / 0.04);
+  --tk-shadow-glow: 0 0 20px rgb(59 130 246 / 0.15);
+  --tk-shadow-hover: 0 8px 25px rgb(0 0 0 / 0.15);
 
   /* Colors */
   --tk-bg: #ffffff;
-  --tk-bg-subtle: #f9fafb;
+  --tk-bg-subtle: #f8fafc;
   --tk-bg-hover: #f3f4f6;
+  --tk-bg-card: #ffffff;
   --tk-border: #e5e7eb;
   --tk-border-strong: #d1d5db;
 
@@ -40,10 +45,13 @@
   /* Accent colors */
   --tk-accent-blue: #3b82f6;
   --tk-accent-blue-bg: #eff6ff;
+  --tk-accent-blue-hover: #2563eb;
   --tk-accent-green: #10b981;
   --tk-accent-green-bg: #ecfdf5;
+  --tk-accent-green-hover: #059669;
   --tk-accent-red: #ef4444;
   --tk-accent-red-bg: #fef2f2;
+  --tk-accent-red-hover: #dc2626;
 
   /* Focus */
   --tk-focus-ring: 0 0 0 2px var(--tk-accent-blue);
@@ -55,24 +63,7 @@
   --tk-transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --tk-bg: #1f2937;
-    --tk-bg-subtle: #111827;
-    --tk-bg-hover: #374151;
-    --tk-border: #374151;
-    --tk-border-strong: #4b5563;
-
-    --tk-text-primary: #f9fafb;
-    --tk-text-secondary: #d1d5db;
-    --tk-text-muted: #9ca3af;
-
-    --tk-chip-bg: #374151;
-    --tk-chip-text: #f3f4f6;
-    --tk-chip-border: #4b5563;
-  }
-}
+/* Dark mode support - REMOVED */
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
