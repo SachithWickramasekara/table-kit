@@ -3,8 +3,8 @@
 .actionsContainer {
   display: flex;
   align-items: center;
-  justify-content: center; /* Center the dropdown trigger */
-  gap: var(--tk-spacing-xs);
+  justify-content: center;
+  gap: var(--tk-spacing-sm);
 }
 
 .actionButton {
@@ -27,8 +27,6 @@
   background: var(--tk-bg-hover);
   color: var(--tk-text-primary);
   border-color: var(--tk-border-strong);
-  transform: translateY(-1px);
-  box-shadow: var(--tk-shadow-sm);
 }
 
 .actionButton:focus-visible {
@@ -56,7 +54,8 @@
   border-color: var(--tk-accent-red);
 }
 
-.actionButtonDanger:hover {
+/* Danger action button */
+.actionButton.danger:hover {
   background: var(--tk-accent-red-bg);
   color: var(--tk-accent-red);
   border-color: var(--tk-accent-red);
@@ -66,12 +65,13 @@
 .dropdownContainer {
   position: relative;
   display: inline-block;
+  z-index: 10;
 }
 
 .dropdownTrigger {
   padding: var(--tk-spacing-xs);
-  border: 1px solid transparent;
-  background: transparent;
+  border: 1px solid var(--tk-border);
+  background: var(--tk-bg);
   color: var(--tk-text-secondary);
   border-radius: var(--tk-radius-sm);
   cursor: pointer;
@@ -81,36 +81,46 @@
   justify-content: center;
   width: 2rem;
   height: 2rem;
-  font-size: 1.125rem; /* Make the vertical dots larger */
+  font-size: 1rem;
   line-height: 1;
+  font-weight: bold;
 }
 
 .dropdownTrigger:hover {
   background: var(--tk-bg-hover);
   color: var(--tk-text-primary);
-  border-color: var(--tk-border);
+  border-color: var(--tk-border-strong);
+  box-shadow: var(--tk-shadow-sm);
+}
+
+.dropdownTrigger:focus-visible {
+  outline: 2px solid var(--tk-accent-blue);
+  outline-offset: 2px;
 }
 
 .dropdownMenu {
   position: absolute;
-  top: 100%;
+  top: calc(100% + var(--tk-spacing-xs));
   right: 0;
-  margin-top: var(--tk-spacing-xs);
-  background: var(--tk-bg);
+  background: var(--tk-bg-card);
   border: 1px solid var(--tk-border);
   border-radius: var(--tk-radius-md);
-  box-shadow: var(--tk-shadow-lg);
-  z-index: 50;
-  min-width: 8rem;
+  box-shadow: var(--tk-shadow-xl);
+  z-index: 10000;
+  min-width: 10rem;
   opacity: 0;
-  transform: translateY(-4px);
+  transform: translateY(-8px) scale(0.95);
   transition: all var(--tk-transition-fast);
   pointer-events: none;
+  /* Ensure dropdown stays above other content */
+  isolation: isolate;
+  /* Auto adjust position based on available space */
+  max-width: 90vw;
 }
 
 .dropdownMenuOpen {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   pointer-events: auto;
 }
 
@@ -121,16 +131,23 @@
   padding: var(--tk-spacing-sm) var(--tk-spacing-md);
   color: var(--tk-text-primary);
   font-size: 0.875rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color var(--tk-transition-fast);
+  transition: all var(--tk-transition-fast);
   border: none;
   background: none;
   width: 100%;
   text-align: left;
+  line-height: 1.4;
 }
 
 .dropdownItem:hover {
   background: var(--tk-bg-hover);
+  color: var(--tk-text-primary);
+}
+
+.dropdownItem:active {
+  background: var(--tk-bg-subtle);
 }
 
 .dropdownItem:first-child {
@@ -163,6 +180,9 @@
   width: 1rem;
   height: 1rem;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Animation */
@@ -192,4 +212,44 @@
     padding: var(--tk-spacing-sm);
     font-size: 0.75rem;
   }
+
+  .dropdownMenu {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px) scale(0.95);
+    min-width: 8rem;
+  }
+
+  .dropdownMenuOpen {
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+
+  .dropdownItem {
+    padding: var(--tk-spacing-md);
+    font-size: 0.8125rem;
+  }
+}
+
+/* Table cell specific overrides */
+.actionsContainer {
+  /* Ensure actions don't break table layout */
+  min-width: max-content;
+}
+
+/* Fix for dropdowns in table cells */
+td:has(.dropdownContainer) {
+  overflow: visible !important;
+}
+
+.dropdownContainer {
+  /* Ensure dropdown can escape table cell boundaries */
+  overflow: visible;
+}
+
+/* Improved focus states */
+.dropdownTrigger:focus-visible,
+.dropdownItem:focus-visible {
+  outline: 2px solid var(--tk-accent-blue);
+  outline-offset: 2px;
+  z-index: 1001;
 }

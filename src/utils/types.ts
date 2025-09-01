@@ -8,20 +8,9 @@ export type Column<T> = {
   cell?: (value: unknown, row: T) => ReactNode;
   width?: number | string;
   sortable?: boolean; // not implemented yet, reserve
-  sticky?: boolean; // make column sticky (fixed position)
-  stickyPosition?: "left" | "right"; // position for sticky columns
 };
 
-export type TableAction<T> = {
-  id: string;
-  label: string;
-  icon?: ReactNode;
-  onClick: (row: T) => void;
-  isDanger?: boolean;
-  disabled?: boolean;
-  show?: (row: T) => boolean; // optional predicate
-  hidden?: boolean; // allows hiding default actions like view, edit, delete
-};
+// TableAction type removed - actions should now be defined as regular columns with custom cell renderers
 
 export type TableKitProps<T> = {
   data?: T[]; // if absent, show dummy rows
@@ -42,13 +31,8 @@ export type TableKitProps<T> = {
   totalItems?: number; // total number of items (if not provided, uses data.length)
   showPagination?: boolean; // whether to show pagination controls (default: true if pageSize is set)
 
-  // actions
-  actions?: TableAction<T>[]; // appended to defaults
-  overrideActions?: TableAction<T>[]; // replace defaults entirely
-  hideDefaultActions?: string[]; // hide specific default actions by id: ["view", "edit", "delete"]
-  onEdit?: (row: T) => void;
-  onView?: (row: T) => void;
-  onDelete?: (row: T) => void;
+  // Actions are now handled as regular columns with custom cell renderers
+  // Example: { header: "Actions", cell: (row) => <YourActionsComponent row={row} /> }
 
   // header & composition
   title?: ReactNode; // e.g. "All users 44"
@@ -61,11 +45,6 @@ export type TableKitProps<T> = {
   emptyState?: ReactNode; // custom empty view
   className?: string;
   theme?: TableTheme; // custom theme colors and spacing
-
-  // sticky columns
-  stickyActions?: boolean; // make actions column sticky (default: true)
-  stickyLastColumn?: boolean; // make last data column sticky (default: false)
-  stickyColumns?: number; // number of columns to make sticky from the right (default: 1 for actions)
 };
 
 // Default row interface for docs/examples
@@ -79,8 +58,7 @@ export type UserRow = {
   avatarUrl?: string;
 };
 
-// Internal types
-export type DefaultAction = "view" | "edit" | "delete";
+// DefaultAction type removed - actions are now regular columns
 
 export type AnimationConfig = {
   enabled: boolean;

@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import styles from "../../styles/chips.module.css";
 
 export interface AccessChipsProps {
   access: string[];
@@ -10,10 +11,10 @@ function getChipVariant(accessType: string): string {
   const lowerType = accessType.toLowerCase();
 
   if (lowerType.includes("admin")) {
-    return "table-kit-chip-primary";
+    return styles.chipPrimary;
   }
   if (lowerType.includes("export") || lowerType.includes("import")) {
-    return "table-kit-chip-success";
+    return styles.chipSuccess;
   }
 
   return "";
@@ -24,7 +25,7 @@ export function AccessChips({
   maxVisible = 3,
   className = "",
 }: AccessChipsProps): ReactNode {
-  const containerClass = `table-kit-chip-container ${className}`.trim();
+  const containerClass = `${styles.chipContainer} ${className}`.trim();
 
   if (!access || access.length === 0) {
     return (
@@ -40,9 +41,7 @@ export function AccessChips({
   return (
     <div className={containerClass}>
       {visibleItems.map((item, index) => {
-        const chipClass = `table-kit-chip ${getChipVariant(
-          item
-        )} table-kit-chip-enter`.trim();
+        const chipClass = `${styles.chip} ${getChipVariant(item)}`.trim();
         return (
           <span
             key={item}
@@ -54,9 +53,7 @@ export function AccessChips({
         );
       })}
       {remainingCount > 0 && (
-        <span className="table-kit-chip table-kit-chip-enter">
-          +{remainingCount} more
-        </span>
+        <span className={styles.chip}>+{remainingCount} more</span>
       )}
     </div>
   );

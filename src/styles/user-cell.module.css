@@ -19,8 +19,8 @@
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
-  background: var(--tk-accent-blue-bg);
-  color: var(--tk-accent-blue);
+  background: var(--tk-accent-blue);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,11 +36,17 @@
 }
 
 .userName {
-  font-weight: 500;
+  font-weight: 600;
   color: var(--tk-text-primary);
   margin: 0 0 var(--tk-spacing-xs) 0;
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   line-height: 1.2;
+  transition: all var(--tk-transition-fast);
+}
+
+.userCell:hover .userName {
+  color: var(--tk-accent-blue);
+  font-weight: 700;
 }
 
 .userEmail {
@@ -51,11 +57,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-/* Hover effects */
-.userCell:hover .userName {
-  color: var(--tk-accent-blue);
 }
 
 .userCell:hover .avatar,

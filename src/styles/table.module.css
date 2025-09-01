@@ -1,26 +1,49 @@
 @import "./tokens.css";
 
 .tableContainer {
-  background: var(--tk-bg);
+  background: var(--tk-bg-card);
   border: 1px solid var(--tk-border);
   border-radius: var(--tk-radius-lg);
   box-shadow: var(--tk-shadow-sm);
   overflow: hidden;
 }
 
-.tableWrapper {
-  overflow-x: auto;
-  position: relative;
-  max-width: 100%;
-  /* Ensure sticky positioning works */
-  contain: layout style paint;
-}
-
 .table {
   width: 100%;
   border-collapse: collapse;
   background: var(--tk-bg);
-  min-width: max-content; /* Force table to be as wide as its content */
+  table-layout: auto;
+  min-width: 100%;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  overflow-y: visible;
+  position: relative;
+  max-width: 100%;
+  /* Improve scrolling experience */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--tk-border-strong) var(--tk-bg-subtle);
+}
+
+/* Custom scrollbar for webkit browsers */
+.tableWrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.tableWrapper::-webkit-scrollbar-track {
+  background: var(--tk-bg-subtle);
+  border-radius: var(--tk-radius-sm);
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+  background: var(--tk-border-strong);
+  border-radius: var(--tk-radius-sm);
+}
+
+.tableWrapper::-webkit-scrollbar-thumb:hover {
+  background: var(--tk-text-muted);
 }
 
 .header {
@@ -41,7 +64,7 @@
 }
 
 .title {
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: var(--tk-text-primary);
   margin: 0;
@@ -64,24 +87,45 @@
   border-bottom: 1px solid var(--tk-border);
 }
 
+.headerRow {
+  background: var(--tk-bg-subtle);
+}
+
 .th {
   padding: var(--tk-spacing-md) var(--tk-spacing-lg);
   text-align: left;
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 0.75rem;
+  font-weight: 600;
   color: var(--tk-text-secondary);
   border-bottom: 1px solid var(--tk-border);
-  min-width: 120px; /* Ensure minimum width for columns */
-  white-space: nowrap; /* Prevent text wrapping */
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--tk-bg-subtle);
+  min-width: 120px; /* Ensure minimum width for readability */
 }
 
 .th:first-child {
-  padding-left: var(--tk-spacing-xl);
+  padding-left: var(--tk-spacing-lg);
 }
 
 .th:last-child {
-  padding-right: var(--tk-spacing-xl);
-  text-align: right;
+  padding-right: var(--tk-spacing-lg);
+  text-align: center;
+  width: 5rem;
+}
+
+/* Checkbox column - narrow width, centered */
+.checkboxColumn {
+  width: 40px;
+  text-align: center;
+  padding: var(--tk-spacing-md);
+}
+
+/* Actions header - narrow width, center aligned */
+.th.actionsHeader {
+  width: 80px;
+  text-align: center !important;
 }
 
 /* Checkbox column - narrow width, centered */
@@ -91,85 +135,50 @@
   padding: var(--tk-spacing-md);
 }
 
+/* Custom checkbox styling */
+.checkboxColumn input[type="checkbox"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--tk-border-strong);
+  border-radius: var(--tk-radius-sm);
+  background: var(--tk-bg);
+  cursor: pointer;
+  transition: all var(--tk-transition-bounce);
+  position: relative;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.checkboxColumn input[type="checkbox"]:checked {
+  background: linear-gradient(
+    135deg,
+    var(--tk-accent-blue),
+    var(--tk-accent-purple)
+  );
+  border-color: var(--tk-accent-blue);
+  transform: scale(1.1);
+}
+
+.checkboxColumn input[type="checkbox"]:checked::before {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+  font-size: 0.75rem;
+}
+
+.checkboxColumn input[type="checkbox"]:hover {
+  border-color: var(--tk-accent-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
 /* Actions header - narrow width, center aligned (override :last-child) */
 .th.actionsHeader {
-  width: 8rem;
+  width: 5rem;
   text-align: center !important;
-}
-
-/* Sticky column styles */
-.th.stickyRight,
-.td.stickyRight {
-  position: sticky !important;
-  right: 0 !important;
-  background: var(--tk-bg) !important;
-  z-index: 10 !important;
-  box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1) !important;
-}
-
-.th.stickyRight2,
-.td.stickyRight2 {
-  position: sticky !important;
-  right: 8rem !important; /* Width of actions column */
-  background: var(--tk-bg) !important;
-  z-index: 9 !important;
-  box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1) !important;
-}
-
-.th.stickyRight3,
-.td.stickyRight3 {
-  position: sticky !important;
-  right: calc(
-    8rem + 8rem
-  ) !important; /* Width of actions + second sticky column */
-  background: var(--tk-bg) !important;
-  z-index: 8 !important;
-  box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Sticky left columns */
-.th.stickyLeft,
-.td.stickyLeft {
-  position: sticky;
-  left: 0;
-  background: var(--tk-bg);
-  z-index: 10;
-  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
-}
-
-.th.stickyLeft2,
-.td.stickyLeft2 {
-  position: sticky;
-  left: 3rem; /* Width of checkbox column */
-  background: var(--tk-bg);
-  z-index: 9;
-  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Ensure sticky columns maintain background on hover */
-.tr:hover .td.stickyRight,
-.tr:hover .td.stickyRight2,
-.tr:hover .td.stickyRight3,
-.tr:hover .td.stickyLeft,
-.tr:hover .td.stickyLeft2 {
-  background: var(--tk-bg-hover);
-}
-
-/* Ensure sticky headers maintain background */
-.thead .th.stickyRight,
-.thead .th.stickyRight2,
-.thead .th.stickyRight3,
-.thead .th.stickyLeft,
-.thead .th.stickyLeft2 {
-  background: var(--tk-bg-subtle);
-}
-
-.thead .tr:hover .th.stickyRight,
-.thead .tr:hover .th.stickyRight2,
-.thead .tr:hover .th.stickyRight3,
-.thead .tr:hover .th.stickyLeft,
-.thead .tr:hover .th.stickyLeft2 {
-  background: var(--tk-bg-subtle);
 }
 
 .tbody {
@@ -183,7 +192,6 @@
 
 .tr:hover {
   background: var(--tk-bg-hover);
-  box-shadow: var(--tk-shadow-sm);
 }
 
 .tr:last-child {
@@ -191,12 +199,20 @@
 }
 
 .td {
-  padding: var(--tk-spacing-lg);
+  padding: var(--tk-spacing-md) var(--tk-spacing-lg);
   font-size: 0.875rem;
   color: var(--tk-text-primary);
   vertical-align: middle;
-  min-width: 120px; /* Ensure minimum width for columns */
-  white-space: nowrap; /* Prevent text wrapping */
+  white-space: nowrap;
+  min-width: 120px; /* Ensure minimum width for readability */
+}
+
+.td:first-child {
+  padding-left: var(--tk-spacing-lg);
+}
+
+.td:last-child {
+  padding-right: var(--tk-spacing-lg);
 }
 
 .td:first-child {
@@ -209,7 +225,7 @@
 
 /* Checkbox cell - match header width and center content */
 .checkboxCell {
-  width: 3rem;
+  width: 40px;
   text-align: center;
   padding: var(--tk-spacing-md);
 }
@@ -217,6 +233,9 @@
 .actionsCell {
   text-align: center;
   white-space: nowrap;
+  width: 5rem;
+  position: relative;
+  overflow: visible;
 }
 
 /* Loading state */
@@ -242,7 +261,7 @@
   margin: 0;
 }
 
-/* Animations */
+/* Animations - Simplified */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -251,15 +270,6 @@
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200px 0;
-  }
-  100% {
-    background-position: calc(200px + 100%) 0;
   }
 }
 

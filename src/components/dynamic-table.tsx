@@ -1,5 +1,5 @@
 import { ReactNode, useMemo, useState, useEffect } from "react";
-import { TableKitProps, Column, TableAction, UserRow } from "../utils/types";
+import { TableKitProps, Column, UserRow } from "../utils/types";
 import {
   DEFAULT_DUMMY_DATA,
   GENERIC_DUMMY_DATA,
@@ -7,9 +7,9 @@ import {
 } from "../defaults";
 import { UserCell } from "./cells/UserCell";
 import { AccessChips } from "./cells/AccessChips";
-import { Actions } from "./cells/Actions";
 import { TableSkeleton } from "./skeleton/RowSkeleton";
 import { Pagination } from "./pagination";
+import styles from "../styles/table.module.css";
 
 type MotionComponent = React.ComponentType<
   React.HTMLAttributes<HTMLTableRowElement> & {
@@ -45,12 +45,6 @@ export function TableKit<T = UserRow>({
   onPageChange,
   totalItems,
   showPagination,
-  actions,
-  overrideActions,
-  hideDefaultActions,
-  onEdit,
-  onView,
-  onDelete,
   title,
   renderHeaderLeft,
   renderHeaderRight,
@@ -59,9 +53,6 @@ export function TableKit<T = UserRow>({
   emptyState,
   className = "",
   theme,
-  stickyActions = true,
-  stickyLastColumn = false,
-  stickyColumns = 1,
 }: TableKitProps<T>): ReactNode {
   const [animationEnabled, setAnimationEnabled] = useState(true);
 
@@ -147,121 +138,6 @@ export function TableKit<T = UserRow>({
     return GENERIC_DUMMY_COLUMNS as Column<T>[];
   }, [columns, isUsingDummyData]);
 
-  // Get effective actions
-  const effectiveActions = useMemo(() => {
-    if (overrideActions) return overrideActions;
-
-    const defaultActions: TableAction<T>[] = [
-      {
-        id: "view",
-        label: "View",
-        icon: "",
-        onClick:
-          onView || ((row) => console.log("View action triggered for:", row)),
-      },
-      {
-        id: "edit",
-        label: "Edit",
-        icon: "",
-        onClick:
-          onEdit || ((row) => console.log("Edit action triggered for:", row)),
-      },
-      {
-        id: "delete",
-        label: "Delete",
-        icon: "",
-        isDanger: true,
-        onClick:
-          onDelete ||
-          ((row) => console.log("Delete action triggered for:", row)),
-      },
-    ];
-
-    // Filter out hidden default actions
-    const filteredDefaultActions = defaultActions.filter(
-      (action) => !hideDefaultActions?.includes(action.id)
-    );
-
-    return actions
-      ? [...filteredDefaultActions, ...actions]
-      : filteredDefaultActions;
-  }, [actions, overrideActions, hideDefaultActions, onEdit, onView, onDelete]);
-
-  // Sticky column logic
-  const getStickyClass = (columnIndex: number) => {
-    const totalColumns = effectiveColumns.length;
-    const hasActions = effectiveActions.length > 0;
-
-    // If no sticky columns are enabled, return empty
-    if (!stickyActions && !stickyLastColumn && stickyColumns <= 1) {
-      return "";
-    }
-
-    // Actions column (always last)
-    if (hasActions && columnIndex === totalColumns) {
-      return stickyActions ? "stickyRight" : "";
-    }
-
-    // Last data column
-    if (columnIndex === totalColumns - 1) {
-      if (stickyLastColumn) return "stickyRight2";
-      if (stickyColumns >= 1) return "stickyRight2";
-    }
-
-    // Second to last data column
-    if (columnIndex === totalColumns - 2) {
-      if (stickyColumns >= 2) return "stickyRight3";
-    }
-
-    return "";
-  };
-
-  // Get sticky styles for inline styling
-  const getStickyStyles = (columnIndex: number) => {
-    const stickyClass = getStickyClass(columnIndex);
-
-    if (stickyClass === "stickyRight") {
-      return {
-        position: "sticky" as const,
-        right: 0,
-        backgroundColor: "var(--tk-bg, white)",
-        zIndex: 10,
-        boxShadow: "-2px 0 4px rgba(0, 0, 0, 0.1)",
-      };
-    }
-
-    if (stickyClass === "stickyRight2") {
-      return {
-        position: "sticky" as const,
-        right: "8rem",
-        backgroundColor: "var(--tk-bg, white)",
-        zIndex: 9,
-        boxShadow: "-2px 0 4px rgba(0, 0, 0, 0.1)",
-      };
-    }
-
-    if (stickyClass === "stickyRight3") {
-      return {
-        position: "sticky" as const,
-        right: "calc(8rem + 8rem)",
-        backgroundColor: "var(--tk-bg, white)",
-        zIndex: 8,
-        boxShadow: "-2px 0 4px rgba(0, 0, 0, 0.1)",
-      };
-    }
-
-    return {};
-  };
-
-  // Debug sticky columns
-  console.log("Sticky columns debug:", {
-    totalColumns: effectiveColumns.length,
-    stickyActions,
-    stickyLastColumn,
-    stickyColumns,
-    effectiveActions: effectiveActions.length,
-  });
-
   // Get effective title
   const effectiveTitle = useMemo(() => {
     if (title) return title;
@@ -272,6 +148,16 @@ export function TableKit<T = UserRow>({
 
     return `All items ${effectiveData.length}`;
   }, [title, isUsingDummyData, columns, effectiveData.length]);
+
+  // Determine table layout based on column count
+  const totalColumns = effectiveColumns.length + (selectable ? 1 : 0);
+  const shouldUseHorizontalScroll = totalColumns >= 15;
+
+  const tableStyle = shouldUseHorizontalScroll
+    ? {
+        minWidth: `${totalColumns * 150}px`, // Minimum 150px per column for wide tables
+      }
+    : {};
 
   // Render cell content
   const renderCellContent = (column: Column<T>, row: T, value: unknown) => {
@@ -376,8 +262,8 @@ export function TableKit<T = UserRow>({
   const isIndeterminate =
     selectedRows.length > 0 && selectedRows.length < paginatedData.length;
 
-  const containerClass = `table-kit-table-container ${className} ${
-    loading ? "table-kit-loading" : ""
+  const containerClass = `${styles.tableContainer} ${className} ${
+    loading ? styles.loading : ""
   }`.trim();
 
   const renderTableContent = () => {
@@ -386,11 +272,7 @@ export function TableKit<T = UserRow>({
       return (
         <TableSkeleton
           rows={5}
-          columns={
-            effectiveColumns.length +
-            (selectable ? 1 : 0) +
-            (effectiveActions.length > 0 ? 1 : 0)
-          }
+          columns={effectiveColumns.length + (selectable ? 1 : 0)}
           showUserCell={!columns && isUsingDummyData}
           showChips={!columns && isUsingDummyData}
         />
@@ -401,18 +283,12 @@ export function TableKit<T = UserRow>({
     if (effectiveData.length === 0) {
       return (
         <tr>
-          <td
-            colSpan={
-              effectiveColumns.length +
-              (selectable ? 1 : 0) +
-              (effectiveActions.length > 0 ? 1 : 0)
-            }
-          >
-            <div className="table-kit-empty-state">
+          <td colSpan={effectiveColumns.length + (selectable ? 1 : 0)}>
+            <div className={styles.emptyState}>
               {emptyState || (
                 <>
-                  <div className="table-kit-empty-state-icon">📄</div>
-                  <p className="table-kit-empty-state-text">No data found</p>
+                  <div className={styles.emptyStateIcon}>📄</div>
+                  <p className={styles.emptyStateText}>No data found</p>
                 </>
               )}
             </div>
@@ -434,9 +310,9 @@ export function TableKit<T = UserRow>({
           : {};
 
       return (
-        <RowComponent key={rowId} className="table-kit-tr" {...animationProps}>
+        <RowComponent key={rowId} className={styles.tr} {...animationProps}>
           {selectable && (
-            <td className="table-kit-td table-kit-checkbox-cell">
+            <td className={`${styles.td} ${styles.checkboxCell}`}>
               <input
                 type="checkbox"
                 checked={isRowSelected(rowId)}
@@ -445,39 +321,16 @@ export function TableKit<T = UserRow>({
               />
             </td>
           )}
-          {effectiveColumns.map((column, columnIndex) => {
+          {effectiveColumns.map((column) => {
             const value = column.accessorKey
               ? row[column.accessorKey]
               : undefined;
-            const stickyClass = getStickyClass(columnIndex);
-            const stickyStyles = getStickyStyles(columnIndex);
-            console.log(
-              `Row cell ${columnIndex} (${column.header}): stickyClass = "${stickyClass}"`
-            );
             return (
-              <td
-                key={column.id || column.accessorKey}
-                className={`table-kit-td ${stickyClass}`}
-                style={stickyStyles}
-              >
+              <td key={column.id || column.accessorKey} className={styles.td}>
                 {renderCellContent(column, row, value)}
               </td>
             );
           })}
-          {effectiveActions.length > 0 &&
-            (() => {
-              const stickyClass = getStickyClass(effectiveColumns.length);
-              const stickyStyles = getStickyStyles(effectiveColumns.length);
-              console.log(`Row actions cell: stickyClass = "${stickyClass}"`);
-              return (
-                <td
-                  className={`table-kit-td table-kit-actions-cell ${stickyClass}`}
-                  style={stickyStyles}
-                >
-                  <Actions actions={effectiveActions} row={row} />
-                </td>
-              );
-            })()}
         </RowComponent>
       );
     });
@@ -486,26 +339,26 @@ export function TableKit<T = UserRow>({
   return (
     <div className={containerClass} style={getThemeStyles()}>
       {/* Header */}
-      <div className="table-kit-header">
-        <div className="table-kit-header-left">
-          <h2 className="table-kit-title">{effectiveTitle}</h2>
+      <div className={styles.header}>
+        <div className={styles.headerLeft}>
+          <h2 className={styles.title}>{effectiveTitle}</h2>
           {renderHeaderLeft && renderHeaderLeft()}
         </div>
-        <div className="table-kit-header-right">
+        <div className={styles.headerRight}>
           {renderHeaderRight && renderHeaderRight()}
         </div>
         {renderHeaderExtras && (
-          <div className="table-kit-header-extras">{renderHeaderExtras()}</div>
+          <div className={styles.headerExtras}>{renderHeaderExtras()}</div>
         )}
       </div>
 
       {/* Table */}
-      <div className="table-kit-table-wrapper">
-        <table className="table-kit-table">
-          <thead className="table-kit-thead">
-            <tr className="table-kit-header-row">
+      <div className={styles.tableWrapper}>
+        <table className={styles.table} style={tableStyle}>
+          <thead className={styles.thead}>
+            <tr className={styles.headerRow}>
               {selectable && (
-                <th className="table-kit-th table-kit-checkbox-column">
+                <th className={`${styles.th} ${styles.checkboxColumn}`}>
                   <input
                     type="checkbox"
                     checked={isAllSelected}
@@ -517,39 +370,19 @@ export function TableKit<T = UserRow>({
                   />
                 </th>
               )}
-              {effectiveColumns.map((column, index) => {
-                const stickyClass = getStickyClass(index);
-                const stickyStyles = getStickyStyles(index);
-                console.log(
-                  `Column ${index} (${column.header}): stickyClass = "${stickyClass}"`
-                );
+              {effectiveColumns.map((column) => {
                 return (
                   <th
                     key={column.id || column.accessorKey}
-                    className={`table-kit-th ${stickyClass}`}
-                    style={stickyStyles}
+                    className={styles.th}
                   >
                     {column.header}
                   </th>
                 );
               })}
-              {effectiveActions.length > 0 &&
-                (() => {
-                  const stickyClass = getStickyClass(effectiveColumns.length);
-                  const stickyStyles = getStickyStyles(effectiveColumns.length);
-                  console.log(`Actions column: stickyClass = "${stickyClass}"`);
-                  return (
-                    <th
-                      className={`table-kit-th table-kit-actions-header ${stickyClass}`}
-                      style={stickyStyles}
-                    >
-                      Actions
-                    </th>
-                  );
-                })()}
             </tr>
           </thead>
-          <tbody className="table-kit-tbody">{renderTableContent()}</tbody>
+          <tbody className={styles.tbody}>{renderTableContent()}</tbody>
         </table>
       </div>
 

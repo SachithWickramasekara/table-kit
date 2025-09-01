@@ -1,5 +1,15 @@
 import { ReactNode, useState, useRef, useEffect } from "react";
-import { TableAction } from "../../utils/types";
+import styles from "../../styles/actions.module.css";
+
+export interface TableAction<T> {
+  id: string;
+  label: string;
+  icon?: ReactNode;
+  onClick: (row: T) => void;
+  isDanger?: boolean;
+  disabled?: boolean;
+  show?: (row: T) => boolean; // optional predicate
+}
 
 export interface ActionsProps<T> {
   actions: TableAction<T>[];
@@ -12,7 +22,7 @@ const DEFAULT_ICONS = {
   view: "",
   edit: "",
   delete: "",
-  more: "⋮", // Vertical three dots
+  more: "⋯", // Horizontal three dots - more common and visible
 };
 
 export function Actions<T>({
@@ -28,7 +38,7 @@ export function Actions<T>({
     (action) => !action.show || action.show(row)
   );
 
-  const containerClass = `table-kit-actions-container ${className}`.trim();
+  const containerClass = `${styles.actionsContainer} ${className}`.trim();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -41,10 +51,19 @@ export function Actions<T>({
       }
     }
 
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsDropdownOpen(false);
+      }
+    }
+
     if (isDropdownOpen) {
       document.addEventListener("mousedown", handleClickOutside);
-      return () =>
+      document.addEventListener("keydown", handleEscape);
+      return () => {
         document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener("keydown", handleEscape);
+      };
     }
   }, [isDropdownOpen]);
 
@@ -57,38 +76,67 @@ export function Actions<T>({
 
   return (
     <div className={containerClass}>
-      {/* Always show dropdown with vertical three dots */}
-      <div className="table-kit-dropdown-container" ref={dropdownRef}>
+      {/* Always show dropdown with horizontal three dots */}
+      <div className={styles.dropdownContainer} ref={dropdownRef}>
         <button
-          className="table-kit-dropdown-trigger"
+          className={styles.dropdownTrigger}
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") {
+              setIsDropdownOpen(false);
+            }
+          }}
           aria-label="More actions"
           aria-expanded={isDropdownOpen}
+          aria-haspopup="menu"
+          type="button"
         >
-          <span className="table-kit-icon">{DEFAULT_ICONS.more}</span>
+          <span className={styles.icon}>{DEFAULT_ICONS.more}</span>
         </button>
 
         <div
-          className={`table-kit-dropdown-menu ${
-            isDropdownOpen ? "table-kit-dropdown-menu-open" : ""
+          className={`${styles.dropdownMenu} ${
+            isDropdownOpen ? styles.dropdownMenuOpen : ""
           }`.trim()}
+          role="menu"
+          aria-orientation="vertical"
         >
-          {visibleActions.map((action) => {
-            const itemClass = `table-kit-dropdown-item ${
-              action.isDanger ? "table-kit-dropdown-item-danger" : ""
-            } ${
-              action.disabled ? "table-kit-dropdown-item-disabled" : ""
-            }`.trim();
+          {visibleActions.map((action, index) => {
+            const itemClass = `${styles.dropdownItem} ${
+              action.isDanger ? styles.dropdownItemDanger : ""
+            } ${action.disabled ? styles.dropdownItemDisabled : ""}`.trim();
 
             return (
               <button
                 key={action.id}
                 className={itemClass}
                 onClick={() => handleActionClick(action)}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") {
+                    setIsDropdownOpen(false);
+                  } else if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    const nextIndex = (index + 1) % visibleActions.length;
+                    const nextButton = e.currentTarget.parentElement?.children[
+                      nextIndex
+                    ] as HTMLButtonElement;
+                    nextButton?.focus();
+                  } else if (e.key === "ArrowUp") {
+                    e.preventDefault();
+                    const prevIndex =
+                      index === 0 ? visibleActions.length - 1 : index - 1;
+                    const prevButton = e.currentTarget.parentElement?.children[
+                      prevIndex
+                    ] as HTMLButtonElement;
+                    prevButton?.focus();
+                  }
+                }}
                 disabled={action.disabled}
+                role="menuitem"
+                type="button"
               >
                 {action.icon && (
-                  <span className="table-kit-icon">{action.icon}</span>
+                  <span className={styles.icon}>{action.icon}</span>
                 )}
                 <span>{action.label}</span>
               </button>

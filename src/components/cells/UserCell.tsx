@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { UserRow } from "../../utils/types";
+import styles from "../../styles/user-cell.module.css";
 
 export interface UserCellProps {
   user: UserRow;
@@ -21,7 +22,7 @@ export function UserCell({
   showEmail = true,
   className = "",
 }: UserCellProps): ReactNode {
-  const containerClass = `table-kit-user-cell ${className}`.trim();
+  const containerClass = `${styles.userCell} ${className}`.trim();
 
   return (
     <div className={containerClass}>
@@ -29,7 +30,7 @@ export function UserCell({
         <img
           src={user.avatarUrl}
           alt={`${user.name}'s avatar`}
-          className="table-kit-avatar"
+          className={styles.avatar}
           onError={(e) => {
             // Fallback to initials if image fails to load
             const target = e.target as HTMLImageElement;
@@ -42,14 +43,14 @@ export function UserCell({
         />
       ) : null}
       <div
-        className="table-kit-avatar-fallback"
+        className={styles.avatarFallback}
         style={{ display: user.avatarUrl ? "none" : "flex" }}
       >
         {getInitials(user.name)}
       </div>
-      <div className="table-kit-user-content">
-        <p className="table-kit-user-name">{user.name}</p>
-        {showEmail && <p className="table-kit-user-email">{user.email}</p>}
+      <div className={styles.userContent}>
+        <p className={styles.userName}>{user.name}</p>
+        {showEmail && <p className={styles.userEmail}>{user.email}</p>}
       </div>
     </div>
   );

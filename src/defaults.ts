@@ -1,4 +1,4 @@
-import { Column, TableAction, UserRow } from "./utils/types";
+import { Column, UserRow } from "./utils/types";
 
 // Default dummy data
 export const DEFAULT_DUMMY_DATA: UserRow[] = [
@@ -71,32 +71,6 @@ export const DEFAULT_DUMMY_DATA: UserRow[] = [
     dateAdded: "July 4, 2022",
     avatarUrl:
       "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=40&h=40&fit=crop&crop=face",
-  },
-];
-
-// Default actions
-export const DEFAULT_ACTIONS: TableAction<UserRow>[] = [
-  {
-    id: "view",
-    label: "View",
-    onClick: (row) => {
-      console.log("View action triggered for:", row);
-    },
-  },
-  {
-    id: "edit",
-    label: "Edit",
-    onClick: (row) => {
-      console.log("Edit action triggered for:", row);
-    },
-  },
-  {
-    id: "delete",
-    label: "Delete",
-    isDanger: true,
-    onClick: (row) => {
-      console.log("Delete action triggered for:", row);
-    },
   },
 ];
 
